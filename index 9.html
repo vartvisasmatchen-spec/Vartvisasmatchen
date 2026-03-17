@@ -1,0 +1,527 @@
+<!DOCTYPE html>
+
+<html lang="sv">
+<head>
+ <meta charset="UTF-8"/>
+ <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+ <title>Vart visas matchen?</title>
+ <!-- Google tag (gtag.js) -->
+ <script async src="https://www.googletagmanager.com/gtag/js?id=G-BT7PMY486Z"></script>
+ <script>
+   window.dataLayer = window.dataLayer || [];
+   function gtag(){dataLayer.push(arguments);}
+   gtag('js', new Date());
+   gtag('config', 'G-BT7PMY486Z');
+ </script>
+ <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet"/>
+ <style>
+   :root{
+     --grass:#1a7a2e;--grass-bright:#25a83e;--grass-dark:#145c22;
+     --pitch-black:#0a0a0a;--off-black:#111111;--white:#f5f5f0;
+     --muted:rgba(245,245,240,.45);--border:rgba(245,245,240,.12);
+     --amber:#e8a020;--metro:#1255A0;--tram:#0060a8;
+     --font-head:'Bebas Neue',sans-serif;
+     --font-body:'DM Sans',sans-serif;
+   }
+   *{box-sizing:border-box;margin:0;padding:0;}
+   body{background:var(--pitch-black);color:var(--white);font-family:var(--font-body);min-height:100vh;}
+
+/* HEADER */
+header{
+ background:var(--off-black);border-bottom:2px solid var(--grass);
+ padding:0 2rem;display:flex;align-items:center;justify-content:space-between;
+ height:60px;position:sticky;top:0;z-index:200;
+}
+.logo{font-family:var(--font-head);font-size:1.8rem;letter-spacing:2px;line-height:1;}
+.logo span{color:var(--grass-bright);}
+.header-right{display:flex;align-items:center;gap:.75rem;}
+.lang-toggle{display:flex;border:1px solid var(--border);border-radius:2px;overflow:hidden;}
+.lang-btn{background:transparent;border:none;padding:5px 13px;font-family:var(--font-body);font-size:.8rem;font-weight:600;cursor:pointer;color:var(--muted);transition:all .15s;letter-spacing:1px;}
+.lang-btn.active{background:var(--grass);color:var(--white);}
+
+
+
+/* HERO */
+.hero{
+ background:var(--off-black);padding:2.5rem 2rem 2rem;text-align:center;
+ position:relative;overflow:hidden;border-bottom:1px solid var(--border);
+}
+.hero::before{content:'';position:absolute;inset:0;background:repeating-linear-gradient(-45deg,transparent,transparent 20px,rgba(26,122,46,.04) 20px,rgba(26,122,46,.04) 40px);}
+.hero-content{position:relative;z-index:1;}
+.hero h1{font-family:var(--font-head);font-size:clamp(2.6rem,7vw,5rem);letter-spacing:3px;line-height:1;}
+.hero h1 span{color:var(--grass-bright);}
+.hero-city{font-family:var(--font-head);font-size:.95rem;letter-spacing:4px;color:var(--grass-bright);margin-top:.3rem;text-transform:uppercase;transition:opacity .2s;}
+.hero-sub{font-size:.8rem;color:var(--muted);letter-spacing:2px;text-transform:uppercase;margin-top:.3rem;}
+
+/* FEATURED */
+.featured-outer{background:var(--off-black);border-bottom:1px solid var(--border);padding:1.2rem 2rem;}
+.featured-inner{max-width:1120px;margin:0 auto;display:flex;align-items:flex-start;gap:1.2rem;flex-wrap:wrap;}
+.featured-pill{font-family:var(--font-head);font-size:.85rem;letter-spacing:2px;background:var(--grass);color:var(--white);padding:4px 12px;border-radius:2px;white-space:nowrap;flex-shrink:0;margin-top:2px;}
+.featured-content{flex:1;min-width:200px;}
+.featured-teams{font-family:var(--font-head);font-size:clamp(1.4rem,3vw,1.9rem);letter-spacing:2px;line-height:1.15;}
+.featured-teams .vs{color:var(--grass-bright);margin:0 .35rem;font-size:.75em;}
+.featured-meta{font-size:.75rem;color:var(--muted);letter-spacing:.5px;margin-top:.2rem;text-transform:uppercase;}
+.featured-bars{display:flex;flex-wrap:wrap;gap:.35rem;margin-top:.6rem;}
+.chip{background:rgba(255,255,255,.06);border:1px solid var(--border);border-radius:2px;padding:3px 10px;font-size:.74rem;color:rgba(245,245,240,.7);}
+
+/* FILTER BAR */
+.filter-outer{background:var(--off-black);border-bottom:1px solid var(--border);position:sticky;top:60px;z-index:100;}
+.filter-inner{max-width:1120px;margin:0 auto;padding:.7rem 1.5rem;display:flex;gap:.5rem;flex-wrap:wrap;align-items:center;}
+.filter-label{font-size:.7rem;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-right:.25rem;font-weight:600;}
+.fbtn{background:transparent;border:1px solid var(--border);border-radius:2px;padding:5px 12px;font-family:var(--font-body);font-size:.76rem;font-weight:600;cursor:pointer;color:rgba(245,245,240,.6);transition:all .15s;letter-spacing:.3px;text-transform:uppercase;}
+.fbtn:hover,.fbtn.active{background:var(--grass);border-color:var(--grass);color:var(--white);}
+.fbtn.supp{border-color:var(--amber);color:rgba(232,160,32,.8);}
+.fbtn.supp:hover,.fbtn.supp.active{background:var(--amber);border-color:var(--amber);color:var(--pitch-black);}
+.filter-right{display:flex;gap:.5rem;margin-left:auto;}
+.toggle-group{display:flex;border:1px solid var(--border);border-radius:2px;overflow:hidden;}
+.tbtn{background:transparent;border:none;border-right:1px solid var(--border);padding:5px 11px;font-family:var(--font-body);font-size:.73rem;font-weight:600;cursor:pointer;color:var(--muted);transition:all .15s;letter-spacing:.3px;text-transform:uppercase;}
+.tbtn:last-child{border-right:none;}
+.tbtn.active{background:rgba(255,255,255,.08);color:var(--white);}
+.tbtn:not(.active):hover{color:var(--white);}
+
+/* MAIN */
+#app{max-width:1120px;margin:0 auto;padding:2rem 1.5rem 4rem;}
+.section-head{font-family:var(--font-head);font-size:1.1rem;letter-spacing:3px;color:var(--muted);margin-bottom:1.5rem;padding-bottom:.5rem;border-bottom:1px solid var(--border);text-transform:uppercase;}
+
+/* MATCH CARD */
+.match-card{border:1px solid var(--border);border-radius:4px;overflow:hidden;margin-bottom:1.5rem;}
+.match-head{background:rgba(255,255,255,.03);padding:.9rem 1.1rem;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:.5rem;border-bottom:1px solid var(--border);}
+.match-teams{font-family:var(--font-head);font-size:1.35rem;letter-spacing:1.5px;}
+.match-teams .vs{color:var(--grass-bright);margin:0 .3rem;font-size:.75em;}
+.match-meta{display:flex;gap:.4rem;align-items:center;flex-wrap:wrap;}
+.badge{font-size:.68rem;font-weight:600;padding:3px 8px;border-radius:2px;text-transform:uppercase;letter-spacing:.5px;}
+.bl{background:var(--grass);color:#fff;}
+.bt{background:rgba(255,255,255,.08);color:rgba(245,245,240,.8);border:1px solid var(--border);}
+.br{background:rgba(255,255,255,.04);color:var(--muted);border:1px solid rgba(255,255,255,.07);font-size:.63rem;}
+.blv{background:#c62828;color:#fff;animation:pulse 1.5s infinite;}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.6}}
+
+/* BAR GRID */
+.bars-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:1px;background:var(--border);}
+.bar-card{background:var(--off-black);padding:.75rem 1rem;transition:background .15s;}
+.bar-card:hover{background:#1a1a1a;}
+.bar-name{font-weight:700;font-size:.88rem;margin-bottom:.15rem;}
+.bar-addr{font-size:.76rem;color:rgba(245,245,240,.45);margin-bottom:.12rem;display:flex;align-items:flex-start;gap:.3rem;}
+.bar-transit{font-size:.76rem;color:rgba(245,245,240,.55);margin-bottom:.6rem;display:flex;align-items:center;gap:.3rem;}
+.t{display:inline-flex;align-items:center;justify-content:center;background:var(--metro);color:#fff;font-family:var(--font-head);font-size:.72rem;width:16px;height:16px;border-radius:50%;flex-shrink:0;}
+.tr{display:inline-flex;align-items:center;justify-content:center;background:var(--tram);color:#fff;font-family:var(--font-head);font-size:.65rem;width:18px;height:16px;border-radius:3px;flex-shrink:0;letter-spacing:.5px;}
+.map-btn{display:inline-flex;align-items:center;gap:.3rem;background:var(--grass);color:#fff;border:none;border-radius:3px;padding:5px 10px;font-family:var(--font-body);font-size:.73rem;font-weight:600;cursor:pointer;text-decoration:none;transition:background .15s;}
+.map-btn:hover{background:var(--grass-dark);}
+
+/* BAR VIEW */
+.bar-view-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(290px,1fr));gap:1rem;}
+.bv-card{border:1px solid var(--border);border-radius:4px;overflow:hidden;}
+.bv-head{background:rgba(255,255,255,.04);padding:.8rem 1rem;border-bottom:1px solid var(--border);}
+.bv-name{font-family:var(--font-head);font-size:1.2rem;letter-spacing:1px;}
+.bv-area{font-size:.72rem;color:var(--muted);text-transform:uppercase;letter-spacing:1px;margin-top:.1rem;}
+.bv-body{padding:.9rem 1rem;}
+.bv-meta{font-size:.77rem;color:rgba(245,245,240,.45);margin-bottom:.2rem;display:flex;align-items:flex-start;gap:.3rem;}
+.bv-transit{font-size:.77rem;color:rgba(245,245,240,.55);margin-bottom:.8rem;display:flex;align-items:center;gap:.3rem;}
+.bv-matches-lbl{font-size:.68rem;text-transform:uppercase;letter-spacing:1px;color:var(--muted);margin-bottom:.4rem;font-weight:600;}
+.bv-match{font-size:.8rem;padding:5px 0;border-bottom:1px solid rgba(255,255,255,.06);display:flex;align-items:center;justify-content:space-between;gap:.5rem;}
+.bv-match:last-child{border-bottom:none;}
+.bv-match-name{font-weight:600;}
+.bv-match-time{font-size:.72rem;color:var(--muted);white-space:nowrap;}
+.bv-league{font-size:.68rem;color:var(--muted);}
+
+/* SUPPORTER */
+#supp-section{max-width:1120px;margin:0 auto;padding:2rem 1.5rem 4rem;display:none;}
+.supp-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:1.25rem;}
+.sc-card{border:1px solid var(--border);border-radius:4px;overflow:hidden;background:#141414;}
+.sc-head{padding:.9rem 1rem;display:flex;align-items:center;gap:.75rem;}
+.sc-badge{width:38px;height:38px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:var(--font-head);font-size:1rem;color:#fff;flex-shrink:0;border:1px solid rgba(255,255,255,.2);}
+.sc-name{font-family:var(--font-head);font-size:1.1rem;letter-spacing:1px;color:#fff;}
+.sc-desc{font-size:.72rem;color:rgba(255,255,255,.5);margin-top:.1rem;}
+.sc-toggle{display:flex;align-items:center;justify-content:space-between;cursor:pointer;padding:.6rem 1rem;background:rgba(0,0,0,.3);border-top:1px solid rgba(255,255,255,.07);}
+.sc-toggle-lbl{font-size:.68rem;text-transform:uppercase;letter-spacing:1px;color:rgba(255,255,255,.35);font-weight:600;}
+.sc-chev{font-size:.75rem;color:rgba(255,255,255,.35);transition:transform .2s;}
+.sc-chev.open{transform:rotate(180deg);}
+.sc-bars{overflow:hidden;transition:max-height .3s ease;}
+.sc-bar{padding:.7rem 1rem;border-top:1px solid rgba(255,255,255,.07);}
+.sc-bar-name{font-weight:700;font-size:.87rem;color:#fff;margin-bottom:.12rem;}
+.sc-bar-addr{font-size:.75rem;color:rgba(255,255,255,.45);display:flex;align-items:flex-start;gap:.3rem;margin-bottom:.1rem;}
+.sc-bar-transit{font-size:.75rem;color:rgba(255,255,255,.55);display:flex;align-items:center;gap:.3rem;margin-bottom:.3rem;}
+.sc-bar-note{font-size:.73rem;color:var(--grass-bright);font-style:italic;margin-bottom:.45rem;}
+
+.loading{text-align:center;padding:4rem;color:var(--muted);font-size:.9rem;letter-spacing:1px;}
+
+footer{background:var(--off-black);border-top:1px solid var(--border);text-align:center;padding:1.5rem;font-size:.75rem;color:var(--muted);}
+footer strong{color:var(--grass-bright);}
+
+@media(max-width:640px){
+ header{padding:0 .75rem;}
+ .logo{font-size:1.4rem;}
+ .city-btn{padding:5px 10px;font-size:.85rem;}
+ .lang-btn{padding:5px 10px;font-size:.75rem;}
+ .hero{padding:1.8rem 1rem 1.5rem;}
+ .hero-sub{font-size:.68rem;letter-spacing:1px;}
+ .featured-outer{padding:.9rem 1rem;}
+ .featured-inner{flex-direction:column;gap:.6rem;}
+ .featured-teams{font-size:1.5rem;}
+ .filter-outer{position:sticky;top:60px;z-index:100;}
+ .filter-inner{flex-wrap:nowrap;padding:.6rem 1rem;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none;gap:.4rem;}
+ .filter-inner::-webkit-scrollbar{display:none;}
+ .filter-label{display:none;}
+ .filter-right{flex-shrink:0;}
+ .fbtn{white-space:nowrap;flex-shrink:0;padding:6px 11px;font-size:.72rem;}
+ .tbtn{padding:6px 10px;font-size:.7rem;}
+ #app{padding:1.25rem 1rem 3rem;}
+ .match-head{padding:.8rem .9rem;}
+ .match-teams{font-size:1.15rem;}
+ .badge{font-size:.63rem;padding:2px 7px;}
+ .bars-grid{grid-template-columns:1fr;}
+ .bar-card{padding:.8rem .9rem;}
+ .bar-view-grid{grid-template-columns:1fr;}
+ #supp-section{padding:1.25rem 1rem 3rem;}
+ .supp-grid{grid-template-columns:1fr;}
+ footer{font-size:.7rem;padding:1.2rem 1rem;}
+ .header-right{gap:.4rem;}
+}
+ 
+/* CONTACT PAGE */
+#contact-section{max-width:600px;margin:0 auto;padding:3rem 1.5rem 4rem;display:none;}
+.contact-card{border:1px solid var(--border);border-radius:6px;overflow:hidden;background:#141414;}
+.contact-head{background:rgba(37,168,62,.08);border-bottom:2px solid var(--grass);padding:1.5rem 1.5rem 1.2rem;}
+.contact-head-title{font-family:var(--font-head);font-size:2rem;letter-spacing:3px;color:var(--white);}
+.contact-head-sub{font-size:.78rem;color:var(--muted);letter-spacing:1.5px;text-transform:uppercase;margin-top:.3rem;}
+.contact-body{padding:1.5rem;}
+.contact-desc{font-size:.88rem;color:rgba(245,245,240,.7);line-height:1.6;margin-bottom:1.5rem;}
+.contact-email-row{display:flex;align-items:center;gap:.75rem;background:rgba(255,255,255,.04);border:1px solid var(--border);border-radius:4px;padding:.9rem 1.1rem;margin-bottom:1rem;}
+.contact-email-icon{font-size:1.2rem;flex-shrink:0;}
+.contact-email-link{font-family:var(--font-head);font-size:1.15rem;letter-spacing:1px;color:var(--grass-bright);text-decoration:none;word-break:break-all;}
+.contact-email-link:hover{color:var(--white);}
+.contact-info{font-size:.78rem;color:var(--muted);line-height:1.6;margin-top:1rem;padding-top:1rem;border-top:1px solid var(--border);}
+@media(max-width:640px){
+  #contact-section{padding:1.5rem 1rem 3rem;}
+  .contact-head{padding:1.2rem 1rem 1rem;}
+  .contact-head-title{font-size:1.6rem;}
+}
+
+/* SEARCH */
+.search-outer{background:var(--off-black);border-bottom:1px solid var(--border);padding:.6rem 1.5rem;}
+.search-inner{max-width:1120px;margin:0 auto;position:relative;}
+.search-input{width:100%;background:rgba(255,255,255,.06);border:1px solid var(--border);border-radius:4px;padding:.55rem 1rem .55rem 2.4rem;font-family:var(--font-body);font-size:.85rem;color:var(--white);outline:none;transition:border .15s;}
+.search-input::placeholder{color:var(--muted);}
+.search-input:focus{border-color:var(--grass);}
+.search-icon{position:absolute;left:.75rem;top:50%;transform:translateY(-50%);color:var(--muted);pointer-events:none;font-size:1rem;}
+.search-clear{position:absolute;right:.75rem;top:50%;transform:translateY(-50%);background:none;border:none;color:var(--muted);cursor:pointer;font-size:1rem;display:none;}
+.search-results-info{font-size:.74rem;color:var(--muted);margin-bottom:1rem;letter-spacing:.5px;}
+@media(max-width:640px){.search-outer{padding:.5rem 1rem;}}
+</style>
+</head>
+<body>
+
+<header>
+ <div class="logo">Vart visas <span>matchen?</span></div>
+ <div class="header-right">
+   <div class="lang-toggle">
+     <button class="lang-btn active" onclick="setLang('sv')">SV</button>
+     <button class="lang-btn" onclick="setLang('en')">EN</button>
+   </div>
+ </div>
+</header>
+
+<div class="hero">
+ <div class="hero-content">
+   <h1 id="hero-title">Vart visas <span>matchen?</span></h1>
+   <div class="hero-city" id="hero-city">Stockholm</div>
+   <div class="hero-sub" id="hero-sub">Champions League · Premier League · La Liga · Bundesliga · Serie A · Ligue 1 · Championship · Allsvenskan</div>
+ </div>
+</div>
+
+<div class="featured-outer" id="featured-block">
+ <div class="featured-inner">
+   <div class="featured-pill" id="feat-label">🔥 Veckans match</div>
+   <div class="featured-content">
+     <div class="featured-teams" id="feat-teams"></div>
+     <div class="featured-meta" id="feat-meta"></div>
+     <div class="featured-bars" id="feat-bars"></div>
+   </div>
+ </div>
+</div>
+
+<div class="filter-outer">
+ <div class="filter-inner">
+   <span class="filter-label" id="filter-label">Liga</span>
+   <button class="fbtn active" onclick="filterMatches('all')" id="fbtn-all">Alla</button>
+   <button class="fbtn" onclick="filterMatches('Champions League')">CL</button>
+   <button class="fbtn" onclick="filterMatches('Premier League')">PL</button>
+   <button class="fbtn" onclick="filterMatches('La Liga')">La Liga</button>
+   <button class="fbtn" onclick="filterMatches('Bundesliga')">Bundesliga</button>
+   <button class="fbtn" onclick="filterMatches('Serie A')">Serie A</button>
+   <button class="fbtn" onclick="filterMatches('Ligue 1')">Ligue 1</button>
+   <button class="fbtn" onclick="filterMatches('Championship')">Championship</button>
+   <button class="fbtn" onclick="filterMatches('Allsvenskan')">Allsvenskan</button>
+   <button class="fbtn" onclick="filterMatches('EFL Cup')">EFL Cup</button>
+   <button class="fbtn" onclick="filterMatches('FA Cup')">FA Cup</button>
+   <button class="fbtn supp" id="supp-btn" onclick="showSupporter()">Supporterkrogar</button>
+   <button class="fbtn" id="contact-btn" onclick="showContact()" style="border-color:rgba(245,245,240,.3);margin-left:.25rem;">✉ Kontakt</button>
+   <div class="filter-right">
+     <div class="toggle-group">
+       <button class="tbtn active" onclick="setSort('default')" id="sort-def">Standard</button>
+       <button class="tbtn" onclick="setSort('alpha')" id="sort-az">A–Ö</button>
+     </div>
+     <div class="toggle-group">
+       <button class="tbtn active" onclick="setView('matches')" id="view-mat">Matcher</button>
+       <button class="tbtn" onclick="setView('bars')" id="view-bar">Krogar</button>
+     </div>
+   </div>
+ </div>
+</div>
+
+<div class="search-outer" id="search-outer">
+  <div class="search-inner">
+    <span class="search-icon">🔍</span>
+    <input class="search-input" id="search-input" type="text" placeholder="Sök lag, krog eller tunnelbana..." oninput="onSearch(this.value)" />
+    <button class="search-clear" id="search-clear" onclick="clearSearch()">✕</button>
+  </div>
+</div>
+<div id="app"><div class="loading">Laddar matcher...</div></div>
+<div id="supp-section"></div>
+
+
+<div id="contact-section">
+  <div class="contact-card">
+    <div class="contact-head">
+      <div class="contact-head-title" id="contact-title">KONTAKT</div>
+      <div class="contact-head-sub" id="contact-sub">Frågor, tips & samarbeten</div>
+    </div>
+    <div class="contact-body">
+      <p class="contact-desc" id="contact-desc">Har du tips om en krog vi missat, vill anmäla en ny sportbar eller är intresserad av samarbete? Hör av dig!</p>
+      <div class="contact-email-row">
+        <span class="contact-email-icon">✉</span>
+        <a class="contact-email-link" href="mailto:vartvisasmatchen@gmail.com">vartvisasmatchen@gmail.com</a>
+      </div>
+      <div class="contact-info" id="contact-info">Vi svarar normalt inom 1–2 dagar. Vi tar gärna emot tips på krogar i Stockholm och Göteborg som visar fotboll!</div>
+    </div>
+  </div>
+</div>
+<footer>
+ <strong>Vart visas matchen?</strong> &nbsp;·&nbsp;
+ <span id="footer-txt">Säsongen 2025/26 · Stockholm · Ej affilierad med UEFA, Premier League eller Allsvenskan</span>
+</footer>
+
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script>
+
+<script>
+const PIN = `<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13S3 17 3 10a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>`;
+const MAPSVG = `<svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13S3 17 3 10a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>`;
+const MAPBTN = (url, lbl) => `<a class="map-btn" href="${url}" target="_blank" rel="noopener">${MAPSVG} ${lbl}</a>`;
+
+const BARS = {"tudor": {"name": "Tudor Arms", "area": "Östermalm", "addr": "Grevgatan 31", "metro": "Östermalmstorg", "exit": "Grevgatan", "map": "https://maps.google.com/?q=Tudor+Arms+Grevgatan+31+Stockholm"}, "dubliner": {"name": "The Dubliner", "area": "Östermalm", "addr": "Holländargatan 18", "metro": "Östermalmstorg", "exit": "Stureplan", "map": "https://maps.google.com/?q=The+Dubliner+Hollandargatan+Stockholm"}, "olearys_ost": {"name": "O'Learys Östermalm", "area": "Östermalm", "addr": "Storgatan 27", "metro": "Östermalmstorg", "exit": "Storgatan", "map": "https://maps.google.com/?q=OLearys+Storgatan+27+Stockholm"}, "stadionpub": {"name": "Stadion Pub", "area": "Östermalm", "addr": "Lidingövägen 1", "metro": "Stadion", "exit": "Södra entrén", "map": "https://maps.google.com/?q=Stadion+Pub+Lidingövägen+1+Stockholm"}, "flyinghorse": {"name": "The Flying Horse", "area": "Vasastan", "addr": "Odengatan 44", "metro": "Odenplan", "exit": "Odengatan", "map": "https://maps.google.com/?q=The+Flying+Horse+Odengatan+44+Stockholm"}, "retro_svea": {"name": "Retro Sveavägen", "area": "Vasastan", "addr": "Sveavägen 120", "metro": "Odenplan", "exit": "Sveavägen", "map": "https://maps.google.com/?q=Retro+Bar+Sveavagen+120+Stockholm"}, "crib": {"name": "The Crib by Retro", "area": "Vasastan", "addr": "Sveavägen 55", "metro": "Rådmansgatan", "exit": "Sveavägen", "map": "https://maps.google.com/?q=The+Crib+Sveavagen+55+Stockholm"}, "olearys_nrt": {"name": "O'Learys Norrtull", "area": "Vasastan", "addr": "Sveavägen 143", "metro": "Odenplan", "exit": "Sveavägen norra", "map": "https://maps.google.com/?q=OLearys+Sveavagen+143+Stockholm"}, "pitchers_n": {"name": "Pitcher's Norrmalm", "area": "Norrmalm", "addr": "Regeringsgatan 113", "metro": "Rådmansgatan", "exit": "Regeringsgatan", "map": "https://maps.google.com/?q=Pitchers+Regeringsgatan+113+Stockholm"}, "olearys_central": {"name": "O'Learys Central", "area": "Norrmalm", "addr": "Centralstationen", "metro": "T-Centralen", "exit": "", "map": "https://maps.google.com/?q=OLearys+Centralstationen+Stockholm"}, "olearys_hotorget": {"name": "O'Learys Hötorget", "area": "Norrmalm", "addr": "Slöjdgatan 11", "metro": "Hötorget", "exit": "", "map": "https://maps.google.com/?q=OLearys+Hotorget+Slojdgatan+11+Stockholm"}, "thepint": {"name": "The Pint", "area": "Gamla Stan", "addr": "Stortorget 1", "metro": "Gamla Stan", "exit": "Stortorget", "map": "https://maps.google.com/?q=The+Pint+Stortorget+1+Stockholm"}, "retro_kung": {"name": "Retro Kungsholmen", "area": "Kungsholmen", "addr": "Sankt Eriksgatan 22", "metro": "Fridhemsplan", "exit": "Sankt Eriksgatan", "map": "https://maps.google.com/?q=Retro+Sankt+Eriksgatan+22+Stockholm"}, "pitchers_h": {"name": "Pitcher's Hornsberg", "area": "Kungsholmen", "addr": "Moa Martinsons Torg 12", "metro": "Västra Skogen", "exit": "Hornsbergs Strand", "map": "https://maps.google.com/?q=Pitchers+Moa+Martinsons+Torg+12+Stockholm"}, "retro_sofo": {"name": "Retro SoFo", "area": "Södermalm", "addr": "Bondegatan 25a", "metro": "Medborgarplatsen", "exit": "Bondegatan", "map": "https://maps.google.com/?q=Retro+Bar+Bondegatan+25a+Stockholm"}, "retro_horn": {"name": "Retro Hornstull", "area": "Södermalm", "addr": "Hornsgatan 136", "metro": "Hornstull", "exit": "Hornsgatan", "map": "https://maps.google.com/?q=Retro+Bar+Hornsgatan+136+Stockholm"}, "pitchers_m": {"name": "Pitcher's Mariatorget", "area": "Södermalm", "addr": "Mariatorget 1A", "metro": "Mariatorget", "exit": "Mariatorget", "map": "https://maps.google.com/?q=Pitchers+Mariatorget+1A+Stockholm"}, "gronaj": {"name": "Gröne Jägaren", "area": "Södermalm", "addr": "Götgatan 64", "metro": "Medborgarplatsen", "exit": "Götgatan", "map": "https://maps.google.com/?q=Gröne+Jägaren+Götgatan+64+Stockholm"}, "olearys_tolv": {"name": "O'Learys Tolv", "area": "Johanneshov", "addr": "Arenavägen 69", "metro": "Globen", "exit": "Tele2 Arena", "map": "https://maps.google.com/?q=OLearys+Arenavaegen+69+Johanneshov"}, "olearys_mos": {"name": "O'Learys Mall of Scandinavia", "area": "Solna", "addr": "Stjärntorget 2", "metro": "Näckrosen", "exit": "Mall of Scandinavia", "map": "https://maps.google.com/?q=OLearys+Stjarntorget+2+Solna"}, "offside": {"name": "Offside Sportsbar", "area": "Solna", "addr": "Postgången 59", "metro": "Solna Centrum", "exit": "Postgången", "map": "https://maps.google.com/?q=Offside+Sportsbar+Postg%C3%A5ngen+59+Solna"}, "olearys_vallingby": {"name": "O'Learys Vällingby", "area": "Vällingby", "addr": "Vällingby Torg 24", "metro": "Vällingby", "exit": "", "map": "https://maps.google.com/?q=OLearys+Vallingby+Torg+24+Vallingby"}, "olearys_haninge": {"name": "O'Learys Haninge", "area": "Haninge", "addr": "Anunds Gränd 1", "metro": "Handen (pendeltåg)", "exit": "Handenterminalen", "map": "https://maps.google.com/?q=OLearys+Anunds+Grand+1+Haninge"}};
+const SUPPORTER_CLUBS = [{"name": "Hammarby IF – Bajen", "nameen": "Hammarby IF – Bajen", "color": "#1a7a2e", "badge": "B", "desc": "Klassiska Bajenkrogar på Södermalm", "descen": "Classic Bajen pubs on Södermalm", "bars": [{"key": "gronaj", "note": "Den klassiska Bajenkrogen – gröna luvtröjor, rätt stämning", "noteen": "The classic Bajen pub – green hoodies, proper atmosphere"}, {"key": "retro_sofo", "note": "Populär sportbar i Bajens kvarter, visar alla matcher", "noteen": "Popular sports bar in Bajen territory, shows all games"}, {"key": "pitchers_m", "note": "Bra pub med storbildsskärm nära Mariatorget", "noteen": "Good pub with big screen near Mariatorget"}]}, {"name": "Djurgårdens IF", "nameen": "Djurgårdens IF", "color": "#003d99", "badge": "D", "desc": "Blårändernas stamkrogar", "descen": "The blue stripes' regular haunts", "bars": [{"key": "stadionpub", "note": "Stadionpuben – DIF:s naturliga hemvist intill Stadion T-bana", "noteen": "Stadium pub – DIF's natural home next to Stadion metro"}, {"key": "thepint", "note": "Brittisk pub i Gamla Stan – populär bland DIF-fans", "noteen": "British pub in Old Town – popular among DIF fans"}, {"key": "retro_svea", "note": "Stor sportbar som visar alla Allsvenskan-matcher", "noteen": "Large sports bar showing all Allsvenskan games"}]}, {"name": "AIK – Gnaget", "nameen": "AIK – Gnaget", "color": "#111111", "badge": "A", "desc": "Svart och gult runt om i länet", "descen": "Black and yellow across the county", "bars": [{"key": "offside", "note": "Solnas populäraste sportbar – hemmaplan för Gnagare", "noteen": "Solna's most popular sports bar – home turf for AIK fans"}, {"key": "retro_svea", "note": "Stor sportbar på Sveavägen med alla AIK:s matcher", "noteen": "Large sports bar on Sveavägen showing all AIK games"}, {"key": "olearys_nrt", "note": "O'Learys Norrtull – nära Råsunda, traditionell AIK-pub", "noteen": "O'Learys Norrtull – close to Råsunda, traditional AIK pub"}]}, {"name": "Manchester United – MUSS", "nameen": "Manchester United – MUSS", "color": "#da291c", "badge": "⚽", "desc": "Man United-supportrarnas hemvist i Stockholm", "descen": "Manchester United fans' home in Stockholm", "bars": [{"key": "olearys_hotorget", "note": "Officiell mötesplats för MUSS – Scandinavian Supporters' Club", "noteen": "Official MUSS meetup spot – Scandinavian Supporters' Club"}]}, {"name": "Arsenal Sweden", "nameen": "Arsenal Sweden", "color": "#ef0107", "badge": "⚽", "desc": "Officiell Arsenal-pub i Stockholm", "descen": "Official Arsenal Sweden pub in Stockholm", "bars": [{"key": "flyinghorse", "note": "Officiell Arsenal Sweden-pub sedan 2016 – rött överallt", "noteen": "Official Arsenal Sweden pub since 2016 – red everywhere"}, {"key": "retro_svea", "note": "Visar alla Arsenal-matcher på storbildsskärm", "noteen": "Shows all Arsenal matches on big screens"}]}, {"name": "Liverpool FC – Stockholm Reds", "nameen": "Liverpool FC – Stockholm Reds", "color": "#c8102e", "badge": "⚽", "desc": "Liverpoolsupportrarnas hemvist i Stockholm", "descen": "Stockholm's Liverpool supporter meetup points", "bars": [{"key": "flyinghorse", "note": "Välkänd träffpunkt för Liverpool-fans i Stockholm", "noteen": "Well-known meeting point for Liverpool fans in Stockholm"}, {"key": "tudor", "note": "Stockholms äldsta brittiska pub – öppnad 1969, klassisk PL-stämning", "noteen": "Stockholm's oldest British pub – opened 1969, classic PL atmosphere"}]}, {"name": "Premier League – Alla lag", "nameen": "Premier League – All clubs", "color": "#38003c", "badge": "⚽", "desc": "Bästa Premier League-pubarna i Stockholms Län", "descen": "Best Premier League pubs in Stockholm County", "bars": [{"key": "tudor", "note": "Stockholms äldsta brittiska pub – autentisk PL-pub sedan 1969", "noteen": "Stockholm's oldest British pub – authentic PL pub since 1969"}, {"key": "olearys_tolv", "note": "En av Europas största sportbarer – jumbotron, stå-plats", "noteen": "One of Europe's largest sports bars – jumbotron, standing area"}, {"key": "olearys_mos", "note": "Världens största O'Learys – 250+ TV-skärmar, vid Friends Arena", "noteen": "World's largest O'Learys – 250+ screens, next to Friends Arena"}, {"key": "dubliner", "note": "Irländsk pub på Östermalm, visar alla Premier League-matcher", "noteen": "Irish pub in Östermalm, showing all Premier League games"}, {"key": "offside", "note": "Solnas bästa sportbar – stor skärm och bra stämning", "noteen": "Solna's best sports bar – big screen and great atmosphere"}]}];
+const FEATURED = {"sv": {"label": "🔥 Veckans match", "teams": ["Arsenal", "Leverkusen"], "meta": "Champions League · Åttondelsfinaler Leg 2 · Tis 17 mar · 21:00", "bars": ["The Flying Horse", "The Dubliner", "Retro Sveavägen", "O'Learys Tolv", "O'Learys Mall of Scandinavia", "Offside Sportsbar"]}, "en": {"label": "🔥 Match of the Week", "teams": ["Arsenal", "Leverkusen"], "meta": "Champions League · Round of 16 Leg 2 · Tue 17 Mar · 21:00", "bars": ["The Flying Horse", "The Dubliner", "Retro Sveavägen", "O'Learys Tolv", "O'Learys Mall of Scandinavia", "Offside Sportsbar"]}};
+const ALL_MATCHES = [{"id": 205, "league": "Champions League", "sv": {"teams": ["Barcelona", "Newcastle"], "date": "Ons 18 mar · 18:45", "round": "Åttondelsfinaler – Leg 2", "live": false}, "en": {"teams": ["Barcelona", "Newcastle"], "date": "Wed 18 Mar · 18:45", "round": "Round of 16 – Leg 2", "live": false}, "bars": ["olearys_ost", "flyinghorse", "retro_kung", "olearys_tolv", "olearys_mos", "olearys_central"]}, {"id": 206, "league": "Champions League", "sv": {"teams": ["Bayern München", "Atalanta"], "date": "Ons 18 mar · 21:00", "round": "Åttondelsfinaler – Leg 2", "live": false}, "en": {"teams": ["Bayern München", "Atalanta"], "date": "Wed 18 Mar · 21:00", "round": "Round of 16 – Leg 2", "live": false}, "bars": ["dubliner", "olearys_ost", "retro_svea", "olearys_tolv", "olearys_nrt", "olearys_central"]}, {"id": 207, "league": "Champions League", "sv": {"teams": ["Liverpool", "Galatasaray"], "date": "Ons 18 mar · 21:00", "round": "Åttondelsfinaler – Leg 2", "live": false}, "en": {"teams": ["Liverpool", "Galatasaray"], "date": "Wed 18 Mar · 21:00", "round": "Round of 16 – Leg 2", "live": false}, "bars": ["tudor", "flyinghorse", "thepint", "olearys_tolv", "olearys_mos", "offside"]}, {"id": 208, "league": "Champions League", "sv": {"teams": ["Tottenham", "Atlético Madrid"], "date": "Ons 18 mar · 21:00", "round": "Åttondelsfinaler – Leg 2", "live": false}, "en": {"teams": ["Tottenham", "Atlético Madrid"], "date": "Wed 18 Mar · 21:00", "round": "Round of 16 – Leg 2", "live": false}, "bars": ["pitchers_n", "retro_sofo", "olearys_tolv", "offside"]}, {"id": 301, "league": "Champions League", "sv": {"teams": ["QF – Hemmalag 1", "TBD"], "date": "Tis 7 apr · 21:00", "round": "Kvartsfinaler – Leg 1", "live": false}, "en": {"teams": ["QF – Hemmalag 1", "TBD"], "date": "Tue 7 Apr · 21:00", "round": "Quarter-finals – Leg 1", "live": false}, "bars": ["dubliner", "olearys_ost", "flyinghorse", "retro_svea", "olearys_tolv", "olearys_mos", "offside"]}, {"id": 302, "league": "Champions League", "sv": {"teams": ["QF – Hemmalag 2", "TBD"], "date": "Tis 7 apr · 21:00", "round": "Kvartsfinaler – Leg 1", "live": false}, "en": {"teams": ["QF – Hemmalag 2", "TBD"], "date": "Tue 7 Apr · 21:00", "round": "Quarter-finals – Leg 1", "live": false}, "bars": ["dubliner", "olearys_ost", "flyinghorse", "retro_svea", "olearys_tolv", "olearys_mos", "offside"]}, {"id": 303, "league": "Champions League", "sv": {"teams": ["QF – Hemmalag 3", "TBD"], "date": "Ons 8 apr · 21:00", "round": "Kvartsfinaler – Leg 1", "live": false}, "en": {"teams": ["QF – Hemmalag 3", "TBD"], "date": "Wed 8 Apr · 21:00", "round": "Quarter-finals – Leg 1", "live": false}, "bars": ["dubliner", "olearys_ost", "flyinghorse", "retro_svea", "olearys_tolv", "olearys_mos", "offside"]}, {"id": 304, "league": "Champions League", "sv": {"teams": ["QF – Hemmalag 4", "TBD"], "date": "Ons 8 apr · 21:00", "round": "Kvartsfinaler – Leg 1", "live": false}, "en": {"teams": ["QF – Hemmalag 4", "TBD"], "date": "Wed 8 Apr · 21:00", "round": "Quarter-finals – Leg 1", "live": false}, "bars": ["dubliner", "olearys_ost", "flyinghorse", "retro_svea", "olearys_tolv", "olearys_mos", "offside"]}, {"id": 305, "league": "Champions League", "sv": {"teams": ["QF – Bortalag 1", "TBD"], "date": "Tis 14 apr · 21:00", "round": "Kvartsfinaler – Leg 2", "live": false}, "en": {"teams": ["QF – Bortalag 1", "TBD"], "date": "Tue 14 Apr · 21:00", "round": "Quarter-finals – Leg 2", "live": false}, "bars": ["dubliner", "olearys_ost", "flyinghorse", "retro_svea", "olearys_tolv", "olearys_mos", "offside"]}, {"id": 306, "league": "Champions League", "sv": {"teams": ["QF – Bortalag 2", "TBD"], "date": "Tis 14 apr · 21:00", "round": "Kvartsfinaler – Leg 2", "live": false}, "en": {"teams": ["QF – Bortalag 2", "TBD"], "date": "Tue 14 Apr · 21:00", "round": "Quarter-finals – Leg 2", "live": false}, "bars": ["dubliner", "olearys_ost", "flyinghorse", "retro_svea", "olearys_tolv", "olearys_mos", "offside"]}, {"id": 307, "league": "Champions League", "sv": {"teams": ["QF – Bortalag 3", "TBD"], "date": "Ons 15 apr · 21:00", "round": "Kvartsfinaler – Leg 2", "live": false}, "en": {"teams": ["QF – Bortalag 3", "TBD"], "date": "Wed 15 Apr · 21:00", "round": "Quarter-finals – Leg 2", "live": false}, "bars": ["dubliner", "olearys_ost", "flyinghorse", "retro_svea", "olearys_tolv", "olearys_mos", "offside"]}, {"id": 308, "league": "Champions League", "sv": {"teams": ["QF – Bortalag 4", "TBD"], "date": "Ons 15 apr · 21:00", "round": "Kvartsfinaler – Leg 2", "live": false}, "en": {"teams": ["QF – Bortalag 4", "TBD"], "date": "Wed 15 Apr · 21:00", "round": "Quarter-finals – Leg 2", "live": false}, "bars": ["dubliner", "olearys_ost", "flyinghorse", "retro_svea", "olearys_tolv", "olearys_mos", "offside"]}, {"id": 401, "league": "Champions League", "sv": {"teams": ["SF – Hemmalag 1", "TBD"], "date": "Tis 28 apr · 21:00", "round": "Semifinaler – Leg 1", "live": false}, "en": {"teams": ["SF – Hemmalag 1", "TBD"], "date": "Tue 28 Apr · 21:00", "round": "Semi-finals – Leg 1", "live": false}, "bars": ["dubliner", "olearys_ost", "flyinghorse", "tudor", "retro_svea", "olearys_tolv", "olearys_mos", "offside", "olearys_nrt", "olearys_central"]}, {"id": 402, "league": "Champions League", "sv": {"teams": ["SF – Hemmalag 2", "TBD"], "date": "Ons 29 apr · 21:00", "round": "Semifinaler – Leg 1", "live": false}, "en": {"teams": ["SF – Hemmalag 2", "TBD"], "date": "Wed 29 Apr · 21:00", "round": "Semi-finals – Leg 1", "live": false}, "bars": ["dubliner", "olearys_ost", "flyinghorse", "tudor", "retro_svea", "olearys_tolv", "olearys_mos", "offside", "olearys_nrt", "olearys_central"]}, {"id": 403, "league": "Champions League", "sv": {"teams": ["SF – Bortalag 1", "TBD"], "date": "Tis 5 maj · 21:00", "round": "Semifinaler – Leg 2", "live": false}, "en": {"teams": ["SF – Bortalag 1", "TBD"], "date": "Tue 5 May · 21:00", "round": "Semi-finals – Leg 2", "live": false}, "bars": ["dubliner", "olearys_ost", "flyinghorse", "tudor", "retro_svea", "olearys_tolv", "olearys_mos", "offside", "olearys_nrt", "olearys_central"]}, {"id": 404, "league": "Champions League", "sv": {"teams": ["SF – Bortalag 2", "TBD"], "date": "Ons 6 maj · 21:00", "round": "Semifinaler – Leg 2", "live": false}, "en": {"teams": ["SF – Bortalag 2", "TBD"], "date": "Wed 6 May · 21:00", "round": "Semi-finals – Leg 2", "live": false}, "bars": ["dubliner", "olearys_ost", "flyinghorse", "tudor", "retro_svea", "olearys_tolv", "olearys_mos", "offside", "olearys_nrt", "olearys_central"]}, {"id": 499, "league": "Champions League", "sv": {"teams": ["Finalist 1", "Finalist 2"], "date": "Lör 30 maj · 21:00", "round": "🏆 FINAL – Puskás Aréna, Budapest", "live": false}, "en": {"teams": ["Finalist 1", "Finalist 2"], "date": "Sat 30 May · 21:00", "round": "🏆 FINAL – Puskás Aréna, Budapest", "live": false}, "bars": ["dubliner", "olearys_ost", "flyinghorse", "tudor", "retro_svea", "olearys_tolv", "olearys_mos", "offside", "olearys_nrt", "olearys_central", "olearys_vallingby"]}, {"id": 550, "league": "EFL Cup", "sv": {"teams": ["Arsenal", "Man City"], "date": "Sön 22 mar · 17:30", "round": "🏆 EFL Cup Final – Wembley", "live": false}, "en": {"teams": ["Arsenal", "Man City"], "date": "Sun 22 Mar · 17:30", "round": "🏆 EFL Cup Final – Wembley", "live": false}, "bars": ["flyinghorse", "tudor", "dubliner", "olearys_ost", "olearys_tolv", "olearys_mos", "offside", "olearys_nrt", "olearys_central"]}, {"id": 560, "league": "FA Cup", "sv": {"teams": ["Southampton", "Arsenal"], "date": "Fre 4 apr · 21:00", "round": "FA Cup Kvartsfinal", "live": false}, "en": {"teams": ["Southampton", "Arsenal"], "date": "Fri 4 Apr · 21:00", "round": "FA Cup Quarter-final", "live": false}, "bars": ["flyinghorse", "tudor", "crib", "olearys_ost", "olearys_mos", "olearys_central"]}, {"id": 561, "league": "FA Cup", "sv": {"teams": ["Man City", "Liverpool"], "date": "Fre 4 apr · 13:45", "round": "FA Cup Kvartsfinal", "live": false}, "en": {"teams": ["Man City", "Liverpool"], "date": "Fri 4 Apr · 13:45", "round": "FA Cup Quarter-final", "live": false}, "bars": ["flyinghorse", "tudor", "dubliner", "olearys_ost", "olearys_tolv", "olearys_mos", "offside", "olearys_nrt", "olearys_central"]}, {"id": 562, "league": "FA Cup", "sv": {"teams": ["Chelsea", "Port Vale"], "date": "Fre 4 apr · 18:15", "round": "FA Cup Kvartsfinal", "live": false}, "en": {"teams": ["Chelsea", "Port Vale"], "date": "Fri 4 Apr · 18:15", "round": "FA Cup Quarter-final", "live": false}, "bars": ["tudor", "dubliner", "pitchers_n", "olearys_tolv", "olearys_nrt", "olearys_hotorget"]}, {"id": 501, "league": "Premier League", "sv": {"teams": ["Arsenal", "AFC Bournemouth"], "date": "Lör 11 apr · 13:30", "round": "Omgång 31", "live": false}, "en": {"teams": ["Arsenal", "AFC Bournemouth"], "date": "Sat 11 Apr · 13:30", "round": "Matchweek 31", "live": false}, "bars": ["flyinghorse", "tudor", "crib", "olearys_ost", "olearys_mos", "olearys_central"]}, {"id": 502, "league": "Premier League", "sv": {"teams": ["Man City", "Arsenal"], "date": "Lör 19 apr · 17:30", "round": "Omgång 32 – Titelkamp", "live": false}, "en": {"teams": ["Man City", "Arsenal"], "date": "Sat 19 Apr · 17:30", "round": "Matchweek 32 – Title Clash", "live": false}, "bars": ["flyinghorse", "tudor", "dubliner", "olearys_ost", "olearys_tolv", "olearys_mos", "offside", "olearys_nrt", "olearys_central"]}, {"id": 503, "league": "Premier League", "sv": {"teams": ["Arsenal", "Newcastle"], "date": "Fre 25 apr · 18:30", "round": "Omgång 33", "live": false}, "en": {"teams": ["Arsenal", "Newcastle"], "date": "Fri 25 Apr · 18:30", "round": "Matchweek 33", "live": false}, "bars": ["flyinghorse", "tudor", "crib", "olearys_ost", "olearys_mos", "olearys_central"]}, {"id": 504, "league": "Premier League", "sv": {"teams": ["Arsenal", "Fulham"], "date": "Fre 2 maj · 16:00", "round": "Omgång 34", "live": false}, "en": {"teams": ["Arsenal", "Fulham"], "date": "Fri 2 May · 16:00", "round": "Matchweek 34", "live": false}, "bars": ["flyinghorse", "tudor", "crib", "olearys_ost", "olearys_mos", "olearys_central"]}, {"id": 505, "league": "Premier League", "sv": {"teams": ["West Ham", "Arsenal"], "date": "Lör 9 maj · 16:00", "round": "Omgång 35", "live": false}, "en": {"teams": ["West Ham", "Arsenal"], "date": "Sat 9 May · 16:00", "round": "Matchweek 35", "live": false}, "bars": ["flyinghorse", "tudor", "crib", "olearys_ost", "olearys_mos", "olearys_central"]}, {"id": 506, "league": "Premier League", "sv": {"teams": ["Arsenal", "Burnley"], "date": "Sön 17 maj · 16:00", "round": "Omgång 36", "live": false}, "en": {"teams": ["Arsenal", "Burnley"], "date": "Sun 17 May · 16:00", "round": "Matchweek 36", "live": false}, "bars": ["flyinghorse", "tudor", "crib", "olearys_ost", "olearys_mos", "olearys_central"]}, {"id": 507, "league": "Premier League", "sv": {"teams": ["Crystal Palace", "Arsenal"], "date": "Sön 24 maj · 17:00", "round": "Omgång 37 – Sista omgången", "live": false}, "en": {"teams": ["Crystal Palace", "Arsenal"], "date": "Sun 24 May · 17:00", "round": "Matchweek 37 – Final Day", "live": false}, "bars": ["flyinghorse", "tudor", "dubliner", "olearys_ost", "olearys_tolv", "olearys_mos", "offside", "olearys_nrt", "olearys_central"]}, {"id": 510, "league": "Premier League", "sv": {"teams": ["Brighton", "Liverpool"], "date": "Fre 21 mar · 13:30", "round": "Omgång 29", "live": false}, "en": {"teams": ["Brighton", "Liverpool"], "date": "Fri 21 Mar · 13:30", "round": "Matchweek 29", "live": false}, "bars": ["flyinghorse", "tudor", "thepint", "olearys_tolv", "olearys_mos", "offside"]}, {"id": 511, "league": "Premier League", "sv": {"teams": ["Liverpool", "Fulham"], "date": "Fre 11 apr · 18:30", "round": "Omgång 31", "live": false}, "en": {"teams": ["Liverpool", "Fulham"], "date": "Fri 11 Apr · 18:30", "round": "Matchweek 31", "live": false}, "bars": ["flyinghorse", "tudor", "thepint", "olearys_tolv", "olearys_mos", "offside"]}, {"id": 512, "league": "Premier League", "sv": {"teams": ["Everton", "Liverpool"], "date": "Lör 19 apr · 15:00", "round": "Omgång 32 – Merseyside-derby", "live": false}, "en": {"teams": ["Everton", "Liverpool"], "date": "Sat 19 Apr · 15:00", "round": "Matchweek 32 – Merseyside Derby", "live": false}, "bars": ["flyinghorse", "tudor", "thepint", "olearys_tolv", "olearys_mos", "offside"]}, {"id": 513, "league": "Premier League", "sv": {"teams": ["Liverpool", "Crystal Palace"], "date": "Fre 25 apr · 16:00", "round": "Omgång 33", "live": false}, "en": {"teams": ["Liverpool", "Crystal Palace"], "date": "Fri 25 Apr · 16:00", "round": "Matchweek 33", "live": false}, "bars": ["flyinghorse", "tudor", "thepint", "olearys_tolv", "olearys_mos", "offside"]}, {"id": 514, "league": "Premier League", "sv": {"teams": ["Man United", "Liverpool"], "date": "Lör 2 maj · 16:00", "round": "Omgång 34", "live": false}, "en": {"teams": ["Man United", "Liverpool"], "date": "Sat 2 May · 16:00", "round": "Matchweek 34", "live": false}, "bars": ["flyinghorse", "tudor", "dubliner", "olearys_ost", "olearys_tolv", "olearys_mos", "offside", "olearys_nrt", "olearys_central"]}, {"id": 515, "league": "Premier League", "sv": {"teams": ["Liverpool", "Chelsea"], "date": "Fre 9 maj · 16:00", "round": "Omgång 35 – Titelstrid", "live": false}, "en": {"teams": ["Liverpool", "Chelsea"], "date": "Fri 9 May · 16:00", "round": "Matchweek 35 – Title Race", "live": false}, "bars": ["flyinghorse", "tudor", "dubliner", "olearys_ost", "olearys_tolv", "olearys_mos", "offside", "olearys_nrt", "olearys_central"]}, {"id": 516, "league": "Premier League", "sv": {"teams": ["Aston Villa", "Liverpool"], "date": "Sön 17 maj · 16:00", "round": "Omgång 36", "live": false}, "en": {"teams": ["Aston Villa", "Liverpool"], "date": "Sun 17 May · 16:00", "round": "Matchweek 36", "live": false}, "bars": ["flyinghorse", "tudor", "thepint", "olearys_tolv", "olearys_mos", "offside"]}, {"id": 517, "league": "Premier League", "sv": {"teams": ["Liverpool", "Brentford"], "date": "Sön 24 maj · 17:00", "round": "Omgång 37 – Sista omgången", "live": false}, "en": {"teams": ["Liverpool", "Brentford"], "date": "Sun 24 May · 17:00", "round": "Matchweek 37 – Final Day", "live": false}, "bars": ["flyinghorse", "tudor", "thepint", "olearys_tolv", "olearys_mos", "offside"]}, {"id": 520, "league": "Premier League", "sv": {"teams": ["Chelsea", "Man City"], "date": "Lör 12 apr · 17:30", "round": "Omgång 31", "live": false}, "en": {"teams": ["Chelsea", "Man City"], "date": "Sat 12 Apr · 17:30", "round": "Matchweek 31", "live": false}, "bars": ["dubliner", "olearys_ost", "retro_svea", "olearys_tolv", "olearys_mos", "offside", "olearys_nrt"]}, {"id": 521, "league": "Premier League", "sv": {"teams": ["Burnley", "Man City"], "date": "Lör 26 apr · 15:00", "round": "Omgång 33", "live": false}, "en": {"teams": ["Burnley", "Man City"], "date": "Sat 26 Apr · 15:00", "round": "Matchweek 33", "live": false}, "bars": ["dubliner", "olearys_ost", "retro_svea", "olearys_tolv", "olearys_mos", "offside", "olearys_nrt"]}, {"id": 522, "league": "Premier League", "sv": {"teams": ["Everton", "Man City"], "date": "Lör 2 maj · 16:00", "round": "Omgång 34", "live": false}, "en": {"teams": ["Everton", "Man City"], "date": "Sat 2 May · 16:00", "round": "Matchweek 34", "live": false}, "bars": ["dubliner", "olearys_ost", "retro_svea", "olearys_tolv", "olearys_mos", "offside", "olearys_nrt"]}, {"id": 523, "league": "Premier League", "sv": {"teams": ["Man City", "Brentford"], "date": "Fre 9 maj · 16:00", "round": "Omgång 35", "live": false}, "en": {"teams": ["Man City", "Brentford"], "date": "Fri 9 May · 16:00", "round": "Matchweek 35", "live": false}, "bars": ["dubliner", "olearys_ost", "retro_svea", "olearys_tolv", "olearys_mos", "offside", "olearys_nrt"]}, {"id": 524, "league": "Premier League", "sv": {"teams": ["AFC Bournemouth", "Man City"], "date": "Lör 17 maj · 16:00", "round": "Omgång 36", "live": false}, "en": {"teams": ["AFC Bournemouth", "Man City"], "date": "Sat 17 May · 16:00", "round": "Matchweek 36", "live": false}, "bars": ["dubliner", "olearys_ost", "retro_svea", "olearys_tolv", "olearys_mos", "offside", "olearys_nrt"]}, {"id": 525, "league": "Premier League", "sv": {"teams": ["Man City", "Aston Villa"], "date": "Sön 24 maj · 17:00", "round": "Omgång 37 – Sista omgången", "live": false}, "en": {"teams": ["Man City", "Aston Villa"], "date": "Sun 24 May · 17:00", "round": "Matchweek 37 – Final Day", "live": false}, "bars": ["dubliner", "olearys_ost", "retro_svea", "olearys_tolv", "olearys_mos", "offside", "olearys_nrt"]}, {"id": 530, "league": "Premier League", "sv": {"teams": ["Everton", "Chelsea"], "date": "Fre 21 mar · 18:30", "round": "Omgång 29", "live": false}, "en": {"teams": ["Everton", "Chelsea"], "date": "Fri 21 Mar · 18:30", "round": "Matchweek 29", "live": false}, "bars": ["tudor", "dubliner", "pitchers_n", "olearys_tolv", "olearys_nrt", "olearys_hotorget"]}, {"id": 531, "league": "Premier League", "sv": {"teams": ["Chelsea", "Man City"], "date": "Lör 12 apr · 17:30", "round": "Omgång 31", "live": false}, "en": {"teams": ["Chelsea", "Man City"], "date": "Sat 12 Apr · 17:30", "round": "Matchweek 31", "live": false}, "bars": ["tudor", "dubliner", "pitchers_n", "olearys_tolv", "olearys_nrt", "olearys_hotorget"]}, {"id": 532, "league": "Premier League", "sv": {"teams": ["Chelsea", "Man United"], "date": "Fre 18 apr · 21:00", "round": "Omgång 32", "live": false}, "en": {"teams": ["Chelsea", "Man United"], "date": "Fri 18 Apr · 21:00", "round": "Matchweek 32", "live": false}, "bars": ["tudor", "dubliner", "pitchers_n", "olearys_tolv", "olearys_nrt", "olearys_hotorget"]}, {"id": 533, "league": "Premier League", "sv": {"teams": ["Brighton", "Chelsea"], "date": "Lör 26 apr · 17:30", "round": "Omgång 33", "live": false}, "en": {"teams": ["Brighton", "Chelsea"], "date": "Sat 26 Apr · 17:30", "round": "Matchweek 33", "live": false}, "bars": ["tudor", "dubliner", "pitchers_n", "olearys_tolv", "olearys_nrt", "olearys_hotorget"]}, {"id": 534, "league": "Premier League", "sv": {"teams": ["Chelsea", "Nottingham Forest"], "date": "Lör 2 maj · 16:00", "round": "Omgång 34", "live": false}, "en": {"teams": ["Chelsea", "Nottingham Forest"], "date": "Sat 2 May · 16:00", "round": "Matchweek 34", "live": false}, "bars": ["tudor", "dubliner", "pitchers_n", "olearys_tolv", "olearys_nrt", "olearys_hotorget"]}, {"id": 535, "league": "Premier League", "sv": {"teams": ["Liverpool", "Chelsea"], "date": "Fre 9 maj · 16:00", "round": "Omgång 35 – Titelstrid", "live": false}, "en": {"teams": ["Liverpool", "Chelsea"], "date": "Fri 9 May · 16:00", "round": "Matchweek 35 – Title Race", "live": false}, "bars": ["flyinghorse", "tudor", "dubliner", "olearys_ost", "olearys_tolv", "olearys_mos", "offside", "olearys_nrt", "olearys_central"]}, {"id": 536, "league": "Premier League", "sv": {"teams": ["Chelsea", "Tottenham"], "date": "Lör 17 maj · 16:00", "round": "Omgång 36", "live": false}, "en": {"teams": ["Chelsea", "Tottenham"], "date": "Sat 17 May · 16:00", "round": "Matchweek 36", "live": false}, "bars": ["tudor", "dubliner", "pitchers_n", "olearys_tolv", "olearys_nrt", "olearys_hotorget"]}, {"id": 537, "league": "Premier League", "sv": {"teams": ["Sunderland", "Chelsea"], "date": "Sön 24 maj · 17:00", "round": "Omgång 37 – Sista omgången", "live": false}, "en": {"teams": ["Sunderland", "Chelsea"], "date": "Sun 24 May · 17:00", "round": "Matchweek 37 – Final Day", "live": false}, "bars": ["tudor", "dubliner", "pitchers_n", "olearys_tolv", "olearys_nrt", "olearys_hotorget"]}, {"id": 540, "league": "Premier League", "sv": {"teams": ["AFC Bournemouth", "Man United"], "date": "Tor 20 mar · 21:00", "round": "Omgång 28", "live": false}, "en": {"teams": ["AFC Bournemouth", "Man United"], "date": "Thu 20 Mar · 21:00", "round": "Matchweek 28", "live": false}, "bars": ["dubliner", "olearys_ost", "pitchers_n", "olearys_nrt", "olearys_hotorget"]}, {"id": 541, "league": "Premier League", "sv": {"teams": ["Man United", "Leeds United"], "date": "Sön 13 apr · 21:00", "round": "Omgång 31", "live": false}, "en": {"teams": ["Man United", "Leeds United"], "date": "Sun 13 Apr · 21:00", "round": "Matchweek 31", "live": false}, "bars": ["dubliner", "olearys_ost", "pitchers_n", "olearys_nrt", "olearys_hotorget"]}, {"id": 542, "league": "Premier League", "sv": {"teams": ["Chelsea", "Man United"], "date": "Fre 18 apr · 21:00", "round": "Omgång 32", "live": false}, "en": {"teams": ["Chelsea", "Man United"], "date": "Fri 18 Apr · 21:00", "round": "Matchweek 32", "live": false}, "bars": ["dubliner", "olearys_ost", "pitchers_n", "olearys_nrt", "olearys_hotorget"]}, {"id": 543, "league": "Premier League", "sv": {"teams": ["Man United", "Brentford"], "date": "Sön 27 apr · 21:00", "round": "Omgång 33", "live": false}, "en": {"teams": ["Man United", "Brentford"], "date": "Sun 27 Apr · 21:00", "round": "Matchweek 33", "live": false}, "bars": ["dubliner", "olearys_ost", "pitchers_n", "olearys_nrt", "olearys_hotorget"]}, {"id": 544, "league": "Premier League", "sv": {"teams": ["Man United", "Liverpool"], "date": "Lör 2 maj · 16:00", "round": "Omgång 34", "live": false}, "en": {"teams": ["Man United", "Liverpool"], "date": "Sat 2 May · 16:00", "round": "Matchweek 34", "live": false}, "bars": ["flyinghorse", "tudor", "dubliner", "olearys_ost", "olearys_tolv", "olearys_mos", "offside", "olearys_nrt", "olearys_central"]}, {"id": 545, "league": "Premier League", "sv": {"teams": ["Sunderland", "Man United"], "date": "Fre 9 maj · 16:00", "round": "Omgång 35", "live": false}, "en": {"teams": ["Sunderland", "Man United"], "date": "Fri 9 May · 16:00", "round": "Matchweek 35", "live": false}, "bars": ["dubliner", "olearys_ost", "pitchers_n", "olearys_nrt", "olearys_hotorget"]}, {"id": 546, "league": "Premier League", "sv": {"teams": ["Man United", "Nottingham Forest"], "date": "Lör 17 maj · 16:00", "round": "Omgång 36", "live": false}, "en": {"teams": ["Man United", "Nottingham Forest"], "date": "Sat 17 May · 16:00", "round": "Matchweek 36", "live": false}, "bars": ["dubliner", "olearys_ost", "pitchers_n", "olearys_nrt", "olearys_hotorget"]}, {"id": 547, "league": "Premier League", "sv": {"teams": ["Brighton", "Man United"], "date": "Sön 24 maj · 17:00", "round": "Omgång 37 – Sista omgången", "live": false}, "en": {"teams": ["Brighton", "Man United"], "date": "Sun 24 May · 17:00", "round": "Matchweek 37 – Final Day", "live": false}, "bars": ["dubliner", "olearys_ost", "pitchers_n", "olearys_nrt", "olearys_hotorget"]}, {"id": 551, "league": "Premier League", "sv": {"teams": ["Sunderland", "Tottenham"], "date": "Lör 12 apr · 15:00", "round": "Omgång 31", "live": false}, "en": {"teams": ["Sunderland", "Tottenham"], "date": "Sat 12 Apr · 15:00", "round": "Matchweek 31", "live": false}, "bars": ["pitchers_n", "retro_svea", "olearys_tolv", "offside"]}, {"id": 552, "league": "Premier League", "sv": {"teams": ["Tottenham", "Brighton"], "date": "Fre 18 apr · 18:30", "round": "Omgång 32", "live": false}, "en": {"teams": ["Tottenham", "Brighton"], "date": "Fri 18 Apr · 18:30", "round": "Matchweek 32", "live": false}, "bars": ["pitchers_n", "retro_svea", "olearys_tolv", "offside"]}, {"id": 553, "league": "Premier League", "sv": {"teams": ["Wolves", "Tottenham"], "date": "Fre 25 apr · 16:00", "round": "Omgång 33", "live": false}, "en": {"teams": ["Wolves", "Tottenham"], "date": "Fri 25 Apr · 16:00", "round": "Matchweek 33", "live": false}, "bars": ["pitchers_n", "retro_svea", "olearys_tolv", "offside"]}, {"id": 554, "league": "Premier League", "sv": {"teams": ["Aston Villa", "Tottenham"], "date": "Lör 2 maj · 16:00", "round": "Omgång 34", "live": false}, "en": {"teams": ["Aston Villa", "Tottenham"], "date": "Sat 2 May · 16:00", "round": "Matchweek 34", "live": false}, "bars": ["pitchers_n", "retro_svea", "olearys_tolv", "offside"]}, {"id": 555, "league": "Premier League", "sv": {"teams": ["Tottenham", "Leeds United"], "date": "Fre 9 maj · 16:00", "round": "Omgång 35", "live": false}, "en": {"teams": ["Tottenham", "Leeds United"], "date": "Fri 9 May · 16:00", "round": "Matchweek 35", "live": false}, "bars": ["pitchers_n", "retro_svea", "olearys_tolv", "offside"]}, {"id": 556, "league": "Premier League", "sv": {"teams": ["Chelsea", "Tottenham"], "date": "Lör 17 maj · 16:00", "round": "Omgång 36", "live": false}, "en": {"teams": ["Chelsea", "Tottenham"], "date": "Sat 17 May · 16:00", "round": "Matchweek 36", "live": false}, "bars": ["pitchers_n", "retro_svea", "olearys_tolv", "offside"]}, {"id": 557, "league": "Premier League", "sv": {"teams": ["Tottenham", "Everton"], "date": "Sön 24 maj · 17:00", "round": "Omgång 37 – Sista omgången", "live": false}, "en": {"teams": ["Tottenham", "Everton"], "date": "Sun 24 May · 17:00", "round": "Matchweek 37 – Final Day", "live": false}, "bars": ["pitchers_n", "retro_svea", "olearys_tolv", "offside"]}, {"id": 1001, "league": "La Liga", "sv": {"teams": ["Real Madrid", "Atlético Madrid"], "date": "Lör 22 mar · 21:00", "round": "Omgång 29 – Madridderby", "live": false}, "en": {"teams": ["Real Madrid", "Atlético Madrid"], "date": "Sat 22 Mar · 21:00", "round": "Matchday 29 – Madrid Derby", "live": false}, "bars": ["dubliner", "olearys_ost", "retro_svea", "thepint", "olearys_tolv", "olearys_mos", "offside", "olearys_haninge", "olearys_central"]}, {"id": 1002, "league": "La Liga", "sv": {"teams": ["Mallorca", "Real Madrid"], "date": "Fre 4 apr · 16:15", "round": "Omgång 30", "live": false}, "en": {"teams": ["Mallorca", "Real Madrid"], "date": "Fri 4 Apr · 16:15", "round": "Matchday 30", "live": false}, "bars": ["dubliner", "olearys_ost", "retro_svea", "olearys_tolv", "olearys_mos"]}, {"id": 1003, "league": "La Liga", "sv": {"teams": ["Atlético Madrid", "Barcelona"], "date": "Lör 4 apr · 21:00", "round": "Omgång 30 – Toppkamp", "live": false}, "en": {"teams": ["Atlético Madrid", "Barcelona"], "date": "Sat 4 Apr · 21:00", "round": "Matchday 30 – Top of the Table", "live": false}, "bars": ["dubliner", "olearys_ost", "retro_svea", "thepint", "olearys_tolv", "olearys_mos", "offside", "olearys_haninge", "olearys_central"]}, {"id": 1004, "league": "La Liga", "sv": {"teams": ["Real Madrid", "Girona"], "date": "Sön 12 apr · 19:00", "round": "Omgång 31", "live": false}, "en": {"teams": ["Real Madrid", "Girona"], "date": "Sun 12 Apr · 19:00", "round": "Matchday 31", "live": false}, "bars": ["dubliner", "olearys_ost", "retro_svea", "olearys_tolv", "olearys_mos"]}, {"id": 1005, "league": "La Liga", "sv": {"teams": ["Barcelona", "Espanyol"], "date": "Lör 12 apr · 19:00", "round": "Omgång 31 – Derbyt", "live": false}, "en": {"teams": ["Barcelona", "Espanyol"], "date": "Sat 12 Apr · 19:00", "round": "Matchday 31 – Derby", "live": false}, "bars": ["dubliner", "olearys_ost", "retro_svea", "olearys_tolv", "olearys_mos"]}, {"id": 1006, "league": "La Liga", "sv": {"teams": ["Barcelona", "Celta Vigo"], "date": "Tis 22 apr · 19:00", "round": "Omgång 32", "live": false}, "en": {"teams": ["Barcelona", "Celta Vigo"], "date": "Tue 22 Apr · 19:00", "round": "Matchday 32", "live": false}, "bars": ["dubliner", "olearys_ost", "retro_svea", "olearys_tolv", "olearys_mos"]}, {"id": 1007, "league": "La Liga", "sv": {"teams": ["Real Madrid", "Deportivo Alavés"], "date": "Tis 22 apr · 19:00", "round": "Omgång 32", "live": false}, "en": {"teams": ["Real Madrid", "Deportivo Alavés"], "date": "Tue 22 Apr · 19:00", "round": "Matchday 32", "live": false}, "bars": ["dubliner", "olearys_ost", "retro_svea", "olearys_tolv", "olearys_mos"]}, {"id": 1008, "league": "La Liga", "sv": {"teams": ["Real Betis", "Real Madrid"], "date": "Lör 26 apr · 19:00", "round": "Omgång 33", "live": false}, "en": {"teams": ["Real Betis", "Real Madrid"], "date": "Sat 26 Apr · 19:00", "round": "Matchday 33", "live": false}, "bars": ["dubliner", "olearys_ost", "retro_svea", "olearys_tolv", "olearys_mos"]}, {"id": 1009, "league": "La Liga", "sv": {"teams": ["Getafe", "Barcelona"], "date": "Lör 26 apr · 19:00", "round": "Omgång 33", "live": false}, "en": {"teams": ["Getafe", "Barcelona"], "date": "Sat 26 Apr · 19:00", "round": "Matchday 33", "live": false}, "bars": ["dubliner", "olearys_ost", "retro_svea", "olearys_tolv", "olearys_mos"]}, {"id": 1010, "league": "La Liga", "sv": {"teams": ["Espanyol", "Real Madrid"], "date": "Lör 3 maj · 19:00", "round": "Omgång 34", "live": false}, "en": {"teams": ["Espanyol", "Real Madrid"], "date": "Sat 3 May · 19:00", "round": "Matchday 34", "live": false}, "bars": ["dubliner", "olearys_ost", "retro_svea", "olearys_tolv", "olearys_mos"]}, {"id": 1011, "league": "La Liga", "sv": {"teams": ["Osasuna", "Barcelona"], "date": "Lör 3 maj · 19:00", "round": "Omgång 34", "live": false}, "en": {"teams": ["Osasuna", "Barcelona"], "date": "Sat 3 May · 19:00", "round": "Matchday 34", "live": false}, "bars": ["dubliner", "olearys_ost", "retro_svea", "olearys_tolv", "olearys_mos"]}, {"id": 1012, "league": "La Liga", "sv": {"teams": ["Barcelona", "Real Madrid"], "date": "Sön 10 maj · 19:00", "round": "Omgång 35 – El Clásico", "live": false}, "en": {"teams": ["Barcelona", "Real Madrid"], "date": "Sun 10 May · 19:00", "round": "Matchday 35 – El Clásico", "live": false}, "bars": ["dubliner", "olearys_ost", "retro_svea", "thepint", "olearys_tolv", "olearys_mos", "offside", "olearys_haninge", "olearys_central"]}, {"id": 1013, "league": "La Liga", "sv": {"teams": ["Real Madrid", "Real Oviedo"], "date": "Ons 13 maj · 19:00", "round": "Omgång 36", "live": false}, "en": {"teams": ["Real Madrid", "Real Oviedo"], "date": "Wed 13 May · 19:00", "round": "Matchday 36", "live": false}, "bars": ["dubliner", "olearys_ost", "retro_svea", "olearys_tolv", "olearys_mos"]}, {"id": 1014, "league": "La Liga", "sv": {"teams": ["Deportivo Alavés", "Barcelona"], "date": "Ons 13 maj · 19:00", "round": "Omgång 36", "live": false}, "en": {"teams": ["Deportivo Alavés", "Barcelona"], "date": "Wed 13 May · 19:00", "round": "Matchday 36", "live": false}, "bars": ["dubliner", "olearys_ost", "retro_svea", "olearys_tolv", "olearys_mos"]}, {"id": 1015, "league": "La Liga", "sv": {"teams": ["Sevilla", "Real Madrid"], "date": "Lör 17 maj · 19:00", "round": "Omgång 37", "live": false}, "en": {"teams": ["Sevilla", "Real Madrid"], "date": "Sat 17 May · 19:00", "round": "Matchday 37", "live": false}, "bars": ["dubliner", "olearys_ost", "retro_svea", "olearys_tolv", "olearys_mos"]}, {"id": 1016, "league": "La Liga", "sv": {"teams": ["Barcelona", "Real Betis"], "date": "Lör 17 maj · 19:00", "round": "Omgång 37", "live": false}, "en": {"teams": ["Barcelona", "Real Betis"], "date": "Sat 17 May · 19:00", "round": "Matchday 37", "live": false}, "bars": ["dubliner", "olearys_ost", "retro_svea", "olearys_tolv", "olearys_mos"]}, {"id": 1017, "league": "La Liga", "sv": {"teams": ["Real Madrid", "Athletic Club"], "date": "Sön 24 maj · 19:00", "round": "Omgång 38 – Sista omgången", "live": false}, "en": {"teams": ["Real Madrid", "Athletic Club"], "date": "Sun 24 May · 19:00", "round": "Matchday 38 – Final Day", "live": false}, "bars": ["dubliner", "olearys_ost", "retro_svea", "olearys_tolv", "olearys_mos"]}, {"id": 1018, "league": "La Liga", "sv": {"teams": ["Valencia", "Barcelona"], "date": "Sön 24 maj · 19:00", "round": "Omgång 38 – Sista omgången", "live": false}, "en": {"teams": ["Valencia", "Barcelona"], "date": "Sun 24 May · 19:00", "round": "Matchday 38 – Final Day", "live": false}, "bars": ["dubliner", "olearys_ost", "retro_svea", "olearys_tolv", "olearys_mos"]}, {"id": 1019, "league": "La Liga", "sv": {"teams": ["Barcelona", "Rayo Vallecano"], "date": "Lör 22 mar · 14:00", "round": "Omgång 29", "live": false}, "en": {"teams": ["Barcelona", "Rayo Vallecano"], "date": "Sat 22 Mar · 14:00", "round": "Matchday 29", "live": false}, "bars": ["dubliner", "olearys_ost", "retro_svea", "olearys_tolv", "olearys_mos"]}, {"id": 1102, "league": "Serie A", "sv": {"teams": ["AC Milan", "Torino"], "date": "Fre 21 mar · 18:00", "round": "Omgång 30", "live": false}, "en": {"teams": ["AC Milan", "Torino"], "date": "Fri 21 Mar · 18:00", "round": "Matchday 30", "live": false}, "bars": ["dubliner", "retro_svea", "olearys_tolv", "olearys_mos"]}, {"id": 1103, "league": "Serie A", "sv": {"teams": ["Fiorentina", "Inter"], "date": "Lör 22 mar · 20:45", "round": "Omgång 30", "live": false}, "en": {"teams": ["Fiorentina", "Inter"], "date": "Sat 22 Mar · 20:45", "round": "Matchday 30", "live": false}, "bars": ["dubliner", "retro_svea", "olearys_tolv", "olearys_mos"]}, {"id": 1104, "league": "Serie A", "sv": {"teams": ["Juventus", "Sassuolo"], "date": "Fre 21 mar · 20:45", "round": "Omgång 30", "live": false}, "en": {"teams": ["Juventus", "Sassuolo"], "date": "Fri 21 Mar · 20:45", "round": "Matchday 30", "live": false}, "bars": ["dubliner", "retro_svea", "olearys_tolv", "olearys_mos"]}, {"id": 1105, "league": "Serie A", "sv": {"teams": ["Napoli", "AC Milan"], "date": "Sön 6 apr · 20:45", "round": "Omgång 31 – Toppkamp", "live": false}, "en": {"teams": ["Napoli", "AC Milan"], "date": "Sun 6 Apr · 20:45", "round": "Matchday 31 – Top of the Table", "live": false}, "bars": ["dubliner", "retro_svea", "olearys_tolv", "olearys_mos"]}, {"id": 1106, "league": "Serie A", "sv": {"teams": ["Inter", "AS Roma"], "date": "Lör 5 apr · 20:45", "round": "Omgång 31", "live": false}, "en": {"teams": ["Inter", "AS Roma"], "date": "Sat 5 Apr · 20:45", "round": "Matchday 31", "live": false}, "bars": ["dubliner", "retro_svea", "olearys_tolv", "olearys_mos"]}, {"id": 1107, "league": "Serie A", "sv": {"teams": ["Juventus", "Genoa"], "date": "Sön 6 apr · 18:00", "round": "Omgång 31", "live": false}, "en": {"teams": ["Juventus", "Genoa"], "date": "Sun 6 Apr · 18:00", "round": "Matchday 31", "live": false}, "bars": ["dubliner", "retro_svea", "olearys_tolv", "olearys_mos"]}, {"id": 1108, "league": "Serie A", "sv": {"teams": ["Atalanta", "Juventus"], "date": "Lör 12 apr · 18:00", "round": "Omgång 32", "live": false}, "en": {"teams": ["Atalanta", "Juventus"], "date": "Sat 12 Apr · 18:00", "round": "Matchday 32", "live": false}, "bars": ["dubliner", "retro_svea", "olearys_tolv", "olearys_mos"]}, {"id": 1109, "league": "Serie A", "sv": {"teams": ["AC Milan", "Udinese"], "date": "Lör 12 apr · 18:00", "round": "Omgång 32", "live": false}, "en": {"teams": ["AC Milan", "Udinese"], "date": "Sat 12 Apr · 18:00", "round": "Matchday 32", "live": false}, "bars": ["dubliner", "retro_svea", "olearys_tolv", "olearys_mos"]}, {"id": 1110, "league": "Serie A", "sv": {"teams": ["Como 1907", "Inter"], "date": "Lör 12 apr · 18:00", "round": "Omgång 32", "live": false}, "en": {"teams": ["Como 1907", "Inter"], "date": "Sat 12 Apr · 18:00", "round": "Matchday 32", "live": false}, "bars": ["dubliner", "retro_svea", "olearys_tolv", "olearys_mos"]}, {"id": 1111, "league": "Serie A", "sv": {"teams": ["Hellas Verona", "AC Milan"], "date": "Lör 19 apr · 18:00", "round": "Omgång 33", "live": false}, "en": {"teams": ["Hellas Verona", "AC Milan"], "date": "Sat 19 Apr · 18:00", "round": "Matchday 33", "live": false}, "bars": ["dubliner", "retro_svea", "olearys_tolv", "olearys_mos"]}, {"id": 1112, "league": "Serie A", "sv": {"teams": ["Inter", "Cagliari"], "date": "Lör 19 apr · 18:00", "round": "Omgång 33", "live": false}, "en": {"teams": ["Inter", "Cagliari"], "date": "Sat 19 Apr · 18:00", "round": "Matchday 33", "live": false}, "bars": ["dubliner", "retro_svea", "olearys_tolv", "olearys_mos"]}, {"id": 1113, "league": "Serie A", "sv": {"teams": ["Juventus", "Bologna"], "date": "Lör 19 apr · 18:00", "round": "Omgång 33", "live": false}, "en": {"teams": ["Juventus", "Bologna"], "date": "Sat 19 Apr · 18:00", "round": "Matchday 33", "live": false}, "bars": ["dubliner", "retro_svea", "olearys_tolv", "olearys_mos"]}, {"id": 1114, "league": "Serie A", "sv": {"teams": ["AC Milan", "Juventus"], "date": "Lör 26 apr · 18:00", "round": "Omgång 34 – Derby d'Italia", "live": false}, "en": {"teams": ["AC Milan", "Juventus"], "date": "Sat 26 Apr · 18:00", "round": "Matchday 34 – Derby d'Italia", "live": false}, "bars": ["dubliner", "olearys_ost", "retro_svea", "thepint", "olearys_tolv", "olearys_mos", "offside"]}, {"id": 1115, "league": "Serie A", "sv": {"teams": ["Torino", "Inter"], "date": "Lör 26 apr · 18:00", "round": "Omgång 34", "live": false}, "en": {"teams": ["Torino", "Inter"], "date": "Sat 26 Apr · 18:00", "round": "Matchday 34", "live": false}, "bars": ["dubliner", "retro_svea", "olearys_tolv", "olearys_mos"]}, {"id": 1116, "league": "Serie A", "sv": {"teams": ["Inter", "Parma"], "date": "Lör 3 maj · 18:00", "round": "Omgång 35", "live": false}, "en": {"teams": ["Inter", "Parma"], "date": "Sat 3 May · 18:00", "round": "Matchday 35", "live": false}, "bars": ["dubliner", "retro_svea", "olearys_tolv", "olearys_mos"]}, {"id": 1117, "league": "Serie A", "sv": {"teams": ["Juventus", "Hellas Verona"], "date": "Lör 3 maj · 18:00", "round": "Omgång 35", "live": false}, "en": {"teams": ["Juventus", "Hellas Verona"], "date": "Sat 3 May · 18:00", "round": "Matchday 35", "live": false}, "bars": ["dubliner", "retro_svea", "olearys_tolv", "olearys_mos"]}, {"id": 1118, "league": "Serie A", "sv": {"teams": ["Sassuolo", "AC Milan"], "date": "Lör 3 maj · 18:00", "round": "Omgång 35", "live": false}, "en": {"teams": ["Sassuolo", "AC Milan"], "date": "Sat 3 May · 18:00", "round": "Matchday 35", "live": false}, "bars": ["dubliner", "retro_svea", "olearys_tolv", "olearys_mos"]}, {"id": 1119, "league": "Serie A", "sv": {"teams": ["Lazio", "Inter"], "date": "Lör 10 maj · 18:00", "round": "Omgång 36", "live": false}, "en": {"teams": ["Lazio", "Inter"], "date": "Sat 10 May · 18:00", "round": "Matchday 36", "live": false}, "bars": ["dubliner", "retro_svea", "olearys_tolv", "olearys_mos"]}, {"id": 1120, "league": "Serie A", "sv": {"teams": ["AC Milan", "Atalanta"], "date": "Lör 10 maj · 18:00", "round": "Omgång 36", "live": false}, "en": {"teams": ["AC Milan", "Atalanta"], "date": "Sat 10 May · 18:00", "round": "Matchday 36", "live": false}, "bars": ["dubliner", "retro_svea", "olearys_tolv", "olearys_mos"]}, {"id": 1121, "league": "Serie A", "sv": {"teams": ["Lecce", "Juventus"], "date": "Lör 10 maj · 18:00", "round": "Omgång 36", "live": false}, "en": {"teams": ["Lecce", "Juventus"], "date": "Sat 10 May · 18:00", "round": "Matchday 36", "live": false}, "bars": ["dubliner", "retro_svea", "olearys_tolv", "olearys_mos"]}, {"id": 1122, "league": "Serie A", "sv": {"teams": ["Genoa", "AC Milan"], "date": "Lör 17 maj · 18:00", "round": "Omgång 37", "live": false}, "en": {"teams": ["Genoa", "AC Milan"], "date": "Sat 17 May · 18:00", "round": "Matchday 37", "live": false}, "bars": ["dubliner", "retro_svea", "olearys_tolv", "olearys_mos"]}, {"id": 1123, "league": "Serie A", "sv": {"teams": ["Juventus", "Fiorentina"], "date": "Lör 17 maj · 18:00", "round": "Omgång 37", "live": false}, "en": {"teams": ["Juventus", "Fiorentina"], "date": "Sat 17 May · 18:00", "round": "Matchday 37", "live": false}, "bars": ["dubliner", "retro_svea", "olearys_tolv", "olearys_mos"]}, {"id": 1124, "league": "Serie A", "sv": {"teams": ["AC Milan", "Cagliari"], "date": "Lör 24 maj · 18:00", "round": "Omgång 38 – Sista omgången", "live": false}, "en": {"teams": ["AC Milan", "Cagliari"], "date": "Sat 24 May · 18:00", "round": "Matchday 38 – Final Day", "live": false}, "bars": ["dubliner", "retro_svea", "olearys_tolv", "olearys_mos"]}, {"id": 1125, "league": "Serie A", "sv": {"teams": ["Torino", "Juventus"], "date": "Lör 24 maj · 18:00", "round": "Omgång 38 – Sista omgången", "live": false}, "en": {"teams": ["Torino", "Juventus"], "date": "Sat 24 May · 18:00", "round": "Matchday 38 – Final Day", "live": false}, "bars": ["dubliner", "retro_svea", "olearys_tolv", "olearys_mos"]}, {"id": 1201, "league": "Ligue 1", "sv": {"teams": ["Nice", "PSG"], "date": "Fre 21 mar · 21:00", "round": "Omgång 26", "live": false}, "en": {"teams": ["Nice", "PSG"], "date": "Fri 21 Mar · 21:00", "round": "Matchday 26", "live": false}, "bars": ["dubliner", "retro_svea", "olearys_tolv", "olearys_mos"]}, {"id": 1202, "league": "Ligue 1", "sv": {"teams": ["PSG", "Toulouse"], "date": "Tor 3 apr · 20:45", "round": "Omgång 27", "live": false}, "en": {"teams": ["PSG", "Toulouse"], "date": "Thu 3 Apr · 20:45", "round": "Matchday 27", "live": false}, "bars": ["dubliner", "retro_svea", "olearys_tolv", "olearys_mos"]}, {"id": 1203, "league": "Ligue 1", "sv": {"teams": ["Lens", "PSG"], "date": "Fre 11 apr · 17:00", "round": "Omgång 28", "live": false}, "en": {"teams": ["Lens", "PSG"], "date": "Fri 11 Apr · 17:00", "round": "Matchday 28", "live": false}, "bars": ["dubliner", "retro_svea", "olearys_tolv", "olearys_mos"]}, {"id": 1204, "league": "Ligue 1", "sv": {"teams": ["PSG", "Lyon"], "date": "Lör 19 apr · 17:00", "round": "Omgång 29", "live": false}, "en": {"teams": ["PSG", "Lyon"], "date": "Sat 19 Apr · 17:00", "round": "Matchday 29", "live": false}, "bars": ["dubliner", "retro_svea", "olearys_tolv", "olearys_mos"]}, {"id": 1205, "league": "Ligue 1", "sv": {"teams": ["Angers", "PSG"], "date": "Lör 26 apr · 17:00", "round": "Omgång 30", "live": false}, "en": {"teams": ["Angers", "PSG"], "date": "Sat 26 Apr · 17:00", "round": "Matchday 30", "live": false}, "bars": ["dubliner", "retro_svea", "olearys_tolv", "olearys_mos"]}, {"id": 1206, "league": "Ligue 1", "sv": {"teams": ["PSG", "Lorient"], "date": "Lör 3 maj · 17:00", "round": "Omgång 31", "live": false}, "en": {"teams": ["PSG", "Lorient"], "date": "Sat 3 May · 17:00", "round": "Matchday 31", "live": false}, "bars": ["dubliner", "retro_svea", "olearys_tolv", "olearys_mos"]}, {"id": 1207, "league": "Ligue 1", "sv": {"teams": ["PSG", "Brest"], "date": "Fre 9 maj · 17:00", "round": "Omgång 32", "live": false}, "en": {"teams": ["PSG", "Brest"], "date": "Fri 9 May · 17:00", "round": "Matchday 32", "live": false}, "bars": ["dubliner", "retro_svea", "olearys_tolv", "olearys_mos"]}, {"id": 1208, "league": "Ligue 1", "sv": {"teams": ["Paris FC", "PSG"], "date": "Fre 16 maj · 17:00", "round": "Omgång 33 – Sista omgången", "live": false}, "en": {"teams": ["Paris FC", "PSG"], "date": "Fri 16 May · 17:00", "round": "Matchday 33 – Final Day", "live": false}, "bars": ["dubliner", "retro_svea", "olearys_tolv", "olearys_mos"]}, {"id": 801, "league": "Allsvenskan", "sv": {"teams": ["GAIS", "Djurgårdens IF"], "date": "Sön 6 apr · 16:30", "round": "Omgång 1", "live": false}, "en": {"teams": ["GAIS", "Djurgårdens IF"], "date": "Sun 6 Apr · 16:30", "round": "Round 1", "live": false}, "bars": ["stadionpub", "gronaj", "thepint", "retro_sofo", "retro_horn"]}, {"id": 802, "league": "Allsvenskan", "sv": {"teams": ["Djurgårdens IF", "Kalmar FF"], "date": "Lör 12 apr · 14:00", "round": "Omgång 2", "live": false}, "en": {"teams": ["Djurgårdens IF", "Kalmar FF"], "date": "Sat 12 Apr · 14:00", "round": "Round 2", "live": false}, "bars": ["stadionpub", "gronaj", "thepint", "retro_sofo", "retro_horn"]}, {"id": 803, "league": "Allsvenskan", "sv": {"teams": ["Djurgårdens IF", "Malmö FF"], "date": "Tor 17 apr · 19:00", "round": "Omgång 3", "live": false}, "en": {"teams": ["Djurgårdens IF", "Malmö FF"], "date": "Thu 17 Apr · 19:00", "round": "Round 3", "live": false}, "bars": ["stadionpub", "gronaj", "thepint", "retro_sofo", "retro_horn"]}, {"id": 804, "league": "Allsvenskan", "sv": {"teams": ["Elfsborg", "Djurgårdens IF"], "date": "Tis 22 apr · 19:00", "round": "Omgång 4", "live": false}, "en": {"teams": ["Elfsborg", "Djurgårdens IF"], "date": "Tue 22 Apr · 19:00", "round": "Round 4", "live": false}, "bars": ["stadionpub", "gronaj", "thepint", "retro_sofo", "retro_horn"]}, {"id": 805, "league": "Allsvenskan", "sv": {"teams": ["Djurgårdens IF", "Hammarby"], "date": "Lör 26 apr · 14:00", "round": "Omgång 5 – Stockholmsderby", "live": false}, "en": {"teams": ["Djurgårdens IF", "Hammarby"], "date": "Sat 26 Apr · 14:00", "round": "Round 5 – Stockholm Derby", "live": false}, "bars": ["stadionpub", "gronaj", "thepint", "retro_sofo", "olearys_tolv", "pitchers_m", "offside"]}, {"id": 806, "league": "Allsvenskan", "sv": {"teams": ["Djurgårdens IF", "IFK Göteborg"], "date": "Sön 4 maj · 19:00", "round": "Omgång 6", "live": false}, "en": {"teams": ["Djurgårdens IF", "IFK Göteborg"], "date": "Sun 4 May · 19:00", "round": "Round 6", "live": false}, "bars": ["stadionpub", "gronaj", "thepint", "retro_sofo", "retro_horn"]}, {"id": 807, "league": "Allsvenskan", "sv": {"teams": ["AIK", "Djurgårdens IF"], "date": "Lör 10 maj · 14:00", "round": "Omgång 7 – Stockholmsderby", "live": false}, "en": {"teams": ["AIK", "Djurgårdens IF"], "date": "Sat 10 May · 14:00", "round": "Round 7 – Stockholm Derby", "live": false}, "bars": ["stadionpub", "gronaj", "thepint", "retro_sofo", "olearys_tolv", "pitchers_m", "offside"]}, {"id": 808, "league": "Allsvenskan", "sv": {"teams": ["Djurgårdens IF", "Sirius"], "date": "Sön 18 maj · 19:00", "round": "Omgång 8", "live": false}, "en": {"teams": ["Djurgårdens IF", "Sirius"], "date": "Sun 18 May · 19:00", "round": "Round 8", "live": false}, "bars": ["stadionpub", "gronaj", "thepint", "retro_sofo", "retro_horn"]}, {"id": 809, "league": "Allsvenskan", "sv": {"teams": ["Djurgårdens IF", "Brommapojkarna"], "date": "Tor 22 maj · 19:00", "round": "Omgång 9", "live": false}, "en": {"teams": ["Djurgårdens IF", "Brommapojkarna"], "date": "Thu 22 May · 19:00", "round": "Round 9", "live": false}, "bars": ["stadionpub", "gronaj", "thepint", "retro_sofo", "retro_horn"]}, {"id": 810, "league": "Allsvenskan", "sv": {"teams": ["Mjällby AIF", "Djurgårdens IF"], "date": "Lör 31 maj · 16:30", "round": "Omgång 10", "live": false}, "en": {"teams": ["Mjällby AIF", "Djurgårdens IF"], "date": "Sat 31 May · 16:30", "round": "Round 10", "live": false}, "bars": ["stadionpub", "gronaj", "thepint", "retro_sofo", "retro_horn"]}, {"id": 820, "league": "Allsvenskan", "sv": {"teams": ["Hammarby", "Mjällby AIF"], "date": "Fre 4 apr · 15:00", "round": "Omgång 1", "live": false}, "en": {"teams": ["Hammarby", "Mjällby AIF"], "date": "Fri 4 Apr · 15:00", "round": "Round 1", "live": false}, "bars": ["gronaj", "retro_sofo", "pitchers_m", "olearys_tolv"]}, {"id": 821, "league": "Allsvenskan", "sv": {"teams": ["Sirius", "Hammarby"], "date": "Sön 13 apr · 19:00", "round": "Omgång 2", "live": false}, "en": {"teams": ["Sirius", "Hammarby"], "date": "Sun 13 Apr · 19:00", "round": "Round 2", "live": false}, "bars": ["gronaj", "retro_sofo", "pitchers_m", "olearys_tolv"]}, {"id": 822, "league": "Allsvenskan", "sv": {"teams": ["Hammarby", "Örgryte IS"], "date": "Fre 18 apr · 15:00", "round": "Omgång 3", "live": false}, "en": {"teams": ["Hammarby", "Örgryte IS"], "date": "Fri 18 Apr · 15:00", "round": "Round 3", "live": false}, "bars": ["gronaj", "retro_sofo", "pitchers_m", "olearys_tolv"]}, {"id": 823, "league": "Allsvenskan", "sv": {"teams": ["Hammarby", "Halmstads BK"], "date": "Tis 22 apr · 19:00", "round": "Omgång 4", "live": false}, "en": {"teams": ["Hammarby", "Halmstads BK"], "date": "Tue 22 Apr · 19:00", "round": "Round 4", "live": false}, "bars": ["gronaj", "retro_sofo", "pitchers_m", "olearys_tolv"]}, {"id": 824, "league": "Allsvenskan", "sv": {"teams": ["Djurgårdens IF", "Hammarby"], "date": "Lör 26 apr · 14:00", "round": "Omgång 5 – Stockholmsderby", "live": false}, "en": {"teams": ["Djurgårdens IF", "Hammarby"], "date": "Sat 26 Apr · 14:00", "round": "Round 5 – Stockholm Derby", "live": false}, "bars": ["stadionpub", "gronaj", "thepint", "retro_sofo", "olearys_tolv", "pitchers_m", "offside"]}, {"id": 825, "league": "Allsvenskan", "sv": {"teams": ["Hammarby", "Västerås SK"], "date": "Lör 3 maj · 14:00", "round": "Omgång 6", "live": false}, "en": {"teams": ["Hammarby", "Västerås SK"], "date": "Sat 3 May · 14:00", "round": "Round 6", "live": false}, "bars": ["gronaj", "retro_sofo", "pitchers_m", "olearys_tolv"]}, {"id": 826, "league": "Allsvenskan", "sv": {"teams": ["IFK Göteborg", "Hammarby"], "date": "Sön 11 maj · 19:00", "round": "Omgång 7", "live": false}, "en": {"teams": ["IFK Göteborg", "Hammarby"], "date": "Sun 11 May · 19:00", "round": "Round 7", "live": false}, "bars": ["gronaj", "retro_sofo", "pitchers_m", "olearys_tolv"]}, {"id": 827, "league": "Allsvenskan", "sv": {"teams": ["Hammarby", "Malmö FF"], "date": "Lör 17 maj · 14:00", "round": "Omgång 8", "live": false}, "en": {"teams": ["Hammarby", "Malmö FF"], "date": "Sat 17 May · 14:00", "round": "Round 8", "live": false}, "bars": ["gronaj", "retro_sofo", "pitchers_m", "olearys_tolv"]}, {"id": 828, "league": "Allsvenskan", "sv": {"teams": ["GAIS", "Hammarby"], "date": "Tis 20 maj · 19:00", "round": "Omgång 9", "live": false}, "en": {"teams": ["GAIS", "Hammarby"], "date": "Tue 20 May · 19:00", "round": "Round 9", "live": false}, "bars": ["gronaj", "retro_sofo", "pitchers_m", "olearys_tolv"]}, {"id": 829, "league": "Allsvenskan", "sv": {"teams": ["Hammarby", "AIK"], "date": "Lör 24 maj · 14:00", "round": "Omgång 10 – Stockholmsderby", "live": false}, "en": {"teams": ["Hammarby", "AIK"], "date": "Sat 24 May · 14:00", "round": "Round 10 – Stockholm Derby", "live": false}, "bars": ["stadionpub", "gronaj", "thepint", "retro_sofo", "olearys_tolv", "pitchers_m", "offside"]}, {"id": 830, "league": "Allsvenskan", "sv": {"teams": ["BK Häcken", "Hammarby"], "date": "Lör 31 maj · 14:00", "round": "Omgång 11", "live": false}, "en": {"teams": ["BK Häcken", "Hammarby"], "date": "Sat 31 May · 14:00", "round": "Round 11", "live": false}, "bars": ["gronaj", "retro_sofo", "pitchers_m", "olearys_tolv"]}, {"id": 840, "league": "Allsvenskan", "sv": {"teams": ["AIK", "Halmstads BK"], "date": "Lör 5 apr · 14:00", "round": "Omgång 1", "live": false}, "en": {"teams": ["AIK", "Halmstads BK"], "date": "Sat 5 Apr · 14:00", "round": "Round 1", "live": false}, "bars": ["stadionpub", "retro_svea", "offside", "olearys_nrt"]}, {"id": 841, "league": "Allsvenskan", "sv": {"teams": ["Brommapojkarna", "AIK"], "date": "Sön 13 apr · 19:00", "round": "Omgång 2", "live": false}, "en": {"teams": ["Brommapojkarna", "AIK"], "date": "Sun 13 Apr · 19:00", "round": "Round 2", "live": false}, "bars": ["stadionpub", "retro_svea", "offside", "olearys_nrt"]}, {"id": 842, "league": "Allsvenskan", "sv": {"teams": ["AIK", "Kalmar FF"], "date": "Lör 19 apr · 14:00", "round": "Omgång 3", "live": false}, "en": {"teams": ["AIK", "Kalmar FF"], "date": "Sat 19 Apr · 14:00", "round": "Round 3", "live": false}, "bars": ["stadionpub", "retro_svea", "offside", "olearys_nrt"]}, {"id": 843, "league": "Allsvenskan", "sv": {"teams": ["Degerfors", "AIK"], "date": "Ons 23 apr · 19:00", "round": "Omgång 4", "live": false}, "en": {"teams": ["Degerfors", "AIK"], "date": "Wed 23 Apr · 19:00", "round": "Round 4", "live": false}, "bars": ["stadionpub", "retro_svea", "offside", "olearys_nrt"]}, {"id": 844, "league": "Allsvenskan", "sv": {"teams": ["AIK", "Malmö FF"], "date": "Sön 27 apr · 19:00", "round": "Omgång 5", "live": false}, "en": {"teams": ["AIK", "Malmö FF"], "date": "Sun 27 Apr · 19:00", "round": "Round 5", "live": false}, "bars": ["stadionpub", "retro_svea", "offside", "olearys_nrt"]}, {"id": 845, "league": "Allsvenskan", "sv": {"teams": ["Elfsborg", "AIK"], "date": "Lör 3 maj · 16:30", "round": "Omgång 6", "live": false}, "en": {"teams": ["Elfsborg", "AIK"], "date": "Sat 3 May · 16:30", "round": "Round 6", "live": false}, "bars": ["stadionpub", "retro_svea", "offside", "olearys_nrt"]}, {"id": 846, "league": "Allsvenskan", "sv": {"teams": ["AIK", "Djurgårdens IF"], "date": "Lör 10 maj · 14:00", "round": "Omgång 7 – Stockholmsderby", "live": false}, "en": {"teams": ["AIK", "Djurgårdens IF"], "date": "Sat 10 May · 14:00", "round": "Round 7 – Stockholm Derby", "live": false}, "bars": ["stadionpub", "gronaj", "thepint", "retro_sofo", "olearys_tolv", "pitchers_m", "offside"]}, {"id": 847, "league": "Allsvenskan", "sv": {"teams": ["Västerås SK", "AIK"], "date": "Lör 17 maj · 16:30", "round": "Omgång 8", "live": false}, "en": {"teams": ["Västerås SK", "AIK"], "date": "Sat 17 May · 16:30", "round": "Round 8", "live": false}, "bars": ["stadionpub", "retro_svea", "offside", "olearys_nrt"]}, {"id": 848, "league": "Allsvenskan", "sv": {"teams": ["Hammarby", "AIK"], "date": "Lör 24 maj · 14:00", "round": "Omgång 10 – Stockholmsderby", "live": false}, "en": {"teams": ["Hammarby", "AIK"], "date": "Sat 24 May · 14:00", "round": "Round 10 – Stockholm Derby", "live": false}, "bars": ["stadionpub", "gronaj", "thepint", "retro_sofo", "olearys_tolv", "pitchers_m", "offside"]}, {"id": 849, "league": "Allsvenskan", "sv": {"teams": ["AIK", "Sirius"], "date": "Fre 30 maj · 15:00", "round": "Omgång 11", "live": false}, "en": {"teams": ["AIK", "Sirius"], "date": "Fri 30 May · 15:00", "round": "Round 11", "live": false}, "bars": ["stadionpub", "retro_svea", "offside", "olearys_nrt"]}];
+
+let LANG = 'sv';
+let FILTER = 'all';
+let SORT = 'default';
+let VIEW = 'matches';
+let SUPP_OPEN = false;
+let SEARCH = '';
+
+function transitKey(bar) { return bar.metro || ''; }
+function transitExit(bar) { return bar.exit ? ', uppg. ' + bar.exit : ''; }
+
+function init() { renderFeatured(); renderLangUI(); render(); }
+
+function setLang(l) {
+  LANG = l;
+  document.querySelectorAll('.lang-btn').forEach(b => b.classList.toggle('active', b.textContent.trim() === l.toUpperCase()));
+  renderLangUI(); renderFeatured();
+  if (SUPP_OPEN) renderSupporter(); else render();
+}
+
+function renderLangUI() {
+  const sv = LANG === 'sv';
+  document.getElementById('hero-title').innerHTML = sv ? 'Vart visas <span>matchen?</span>' : "Where's the <span>match on?</span>";
+  document.getElementById('hero-city').textContent = 'Stockholm';
+  document.getElementById('filter-label').textContent = sv ? 'Liga' : 'League';
+  document.getElementById('fbtn-all').textContent = sv ? 'Alla' : 'All';
+  document.getElementById('supp-btn').textContent = sv ? 'Supporterkrogar' : 'Supporter Bars';
+  document.getElementById('sort-def').textContent = sv ? 'Standard' : 'Default';
+  document.getElementById('sort-az').textContent = sv ? 'A-Ö' : 'A-Z';
+  document.getElementById('view-mat').textContent = sv ? 'Matcher' : 'Matches';
+  document.getElementById('view-bar').textContent = sv ? 'Krogar' : 'Bars';
+  document.getElementById('contact-btn').textContent = sv ? 'Kontakt' : 'Contact';
+  document.getElementById('search-input').placeholder = sv ? 'Sök lag, krog eller tunnelbana...' : 'Search team, bar or metro...';
+  const cityName = sv ? 'Stockholms Län' : 'Stockholm County';
+  document.getElementById('footer-txt').textContent = sv
+    ? `Säsongen 2025/26 · ${cityName} · Ej affilierad med UEFA, Premier League eller Allsvenskan`
+    : `Season 2025/26 · ${cityName} · Not affiliated with UEFA, Premier League or Allsvenskan`;
+  document.getElementById('hero-sub').textContent = 'Champions League · Premier League · La Liga · Bundesliga · Serie A · Ligue 1 · Championship · Allsvenskan';
+}
+
+function renderFeatured() {
+  const f = FEATURED[LANG];
+  document.getElementById('feat-label').textContent = f.label;
+  document.getElementById('feat-teams').innerHTML = f.teams[0] + ' <span class="vs">VS</span> ' + f.teams[1];
+  document.getElementById('feat-meta').textContent = f.meta;
+  document.getElementById('feat-bars').innerHTML = f.bars.map(n => `<span class="chip">${n}</span>`).join('');
+}
+
+function filterMatches(league) {
+  hideSupporter(); hideContact(); FILTER = league;
+  document.querySelectorAll('.fbtn:not(.supp)').forEach(b => {
+    b.classList.toggle('active', (b.getAttribute('onclick') || '').includes("'" + league + "'"));
+  });
+  document.getElementById('contact-btn').classList.remove('active');
+  render();
+}
+function setSort(s) {
+  hideSupporter(); hideContact(); SORT = s;
+  document.getElementById('sort-def').classList.toggle('active', s === 'default');
+  document.getElementById('sort-az').classList.toggle('active', s === 'alpha');
+  render();
+}
+function setView(v) {
+  hideSupporter(); hideContact(); VIEW = v;
+  document.getElementById('view-mat').classList.toggle('active', v === 'matches');
+  document.getElementById('view-bar').classList.toggle('active', v === 'bars');
+  render();
+}
+function showSupporter() {
+  SUPP_OPEN = true;
+  document.getElementById('app').style.display = 'none';
+  document.getElementById('contact-section').style.display = 'none';
+  document.getElementById('supp-section').style.display = 'block';
+  document.querySelectorAll('.fbtn:not(.supp)').forEach(b => b.classList.remove('active'));
+  document.getElementById('supp-btn').classList.add('active');
+  document.getElementById('contact-btn').classList.remove('active');
+  renderSupporter();
+}
+function hideSupporter() {
+  SUPP_OPEN = false;
+  document.getElementById('supp-section').style.display = 'none';
+  document.getElementById('contact-section').style.display = 'none';
+  document.getElementById('app').style.display = '';
+  document.getElementById('supp-btn').classList.remove('active');
+}
+function showContact() {
+  SUPP_OPEN = false;
+  document.getElementById('app').style.display = 'none';
+  document.getElementById('supp-section').style.display = 'none';
+  document.getElementById('contact-section').style.display = 'block';
+  document.querySelectorAll('.fbtn').forEach(b => b.classList.remove('active'));
+  document.getElementById('contact-btn').classList.add('active');
+  const sv = LANG === 'sv';
+  document.getElementById('contact-title').textContent = sv ? 'KONTAKT' : 'CONTACT';
+  document.getElementById('contact-sub').textContent = sv ? 'Frågor, tips & samarbeten' : 'Questions, tips & partnerships';
+  document.getElementById('contact-desc').textContent = sv
+    ? 'Har du tips om en krog vi missat, vill anmäla en ny sportbar eller är intresserad av samarbete? Hör av dig!'
+    : 'Got a tip about a bar we missed, want to suggest a new sports pub, or interested in collaboration? Get in touch!';
+  document.getElementById('contact-info').textContent = sv
+    ? 'Vi svarar normalt inom 1-2 dagar. Vi tar gärna emot tips på krogar i Stockholm som visar fotboll!'
+    : 'We usually reply within 1-2 days. We love tips about bars in Stockholm showing football!';
+}
+function hideContact() {
+  document.getElementById('contact-section').style.display = 'none';
+  document.getElementById('app').style.display = '';
+  document.getElementById('contact-btn').classList.remove('active');
+}
+function toggleSuppCard(i) {
+  const el = document.getElementById('sc-bars-' + i);
+  const chev = document.getElementById('sc-chev-' + i);
+  const open = el.style.maxHeight && el.style.maxHeight !== '0px';
+  el.style.maxHeight = open ? '0px' : el.scrollHeight + 'px';
+  chev.classList.toggle('open', !open);
+}
+function renderSupporter() {
+  const sv = LANG === 'sv';
+  const ml = sv ? 'Öppna i Google Maps' : 'Open in Google Maps';
+  const barsLbl = sv ? 'Krogar' : 'Bars';
+  const sec = document.getElementById('supp-section');
+  sec.innerHTML = '<div class="section-head">' + (sv ? 'SUPPORTERKROGAR I STOCKHOLM' : 'SUPPORTER BARS IN STOCKHOLM') + '</div><div class="supp-grid">' +
+    SUPPORTER_CLUBS.map((club, i) => {
+      const bars = club.bars.map(sb => {
+        const bar = BARS[sb.key];
+        if (!bar) return '';
+        const note = sv ? sb.note : sb.noteen;
+        const tk = transitKey(bar) + transitExit(bar);
+        return '<div class="sc-bar"><div class="sc-bar-name">' + bar.name + '</div><div class="sc-bar-addr">' + PIN + bar.addr + ', ' + bar.area + '</div><div class="sc-bar-transit"><span class="t">T</span>' + tk + '</div><div class="sc-bar-note">' + note + '</div>' + MAPBTN(bar.map, ml) + '</div>';
+      }).join('');
+      return '<div class="sc-card"><div class="sc-head" style="background:' + club.color + '20;border-bottom:2px solid ' + club.color + ';"><div class="sc-badge" style="background:' + club.color + ';">' + club.badge + '</div><div><div class="sc-name">' + (sv ? club.name : club.nameen) + '</div><div class="sc-desc">' + (sv ? club.desc : club.descen) + '</div></div></div><div class="sc-toggle" onclick="toggleSuppCard(' + i + ')"><span class="sc-toggle-lbl">' + barsLbl + ' (' + club.bars.length + ')</span><span class="sc-chev open" id="sc-chev-' + i + '">▼</span></div><div class="sc-bars" id="sc-bars-' + i + '" style="max-height:2000px;">' + bars + '</div></div>';
+    }).join('') + '</div>';
+  SUPPORTER_CLUBS.forEach((_, i) => {
+    const el = document.getElementById('sc-bars-' + i);
+    if (el) el.style.maxHeight = el.scrollHeight + 'px';
+  });
+}
+function onSearch(val) {
+  SEARCH = val.trim().toLowerCase();
+  document.getElementById('search-clear').style.display = SEARCH ? 'block' : 'none';
+  render();
+}
+function clearSearch() {
+  SEARCH = '';
+  document.getElementById('search-input').value = '';
+  document.getElementById('search-clear').style.display = 'none';
+  render();
+}
+function matchesSearch(match) {
+  if (!SEARCH) return true;
+  const l = LANG;
+  const md = match[l];
+  if (md.teams[0].toLowerCase().includes(SEARCH)) return true;
+  if (md.teams[1].toLowerCase().includes(SEARCH)) return true;
+  for (const key of (match.bars || [])) {
+    const bar = BARS[key];
+    if (!bar) continue;
+    if (bar.name.toLowerCase().includes(SEARCH)) return true;
+    if ((bar.metro || '').toLowerCase().includes(SEARCH)) return true;
+    if ((bar.area || '').toLowerCase().includes(SEARCH)) return true;
+    if ((bar.addr || '').toLowerCase().includes(SEARCH)) return true;
+  }
+  return false;
+}
+function render() {
+  const l = LANG, sv = l === 'sv';
+  const ml = sv ? 'Öppna i Google Maps' : 'Open in Google Maps';
+  let matches = FILTER === 'all' ? ALL_MATCHES : ALL_MATCHES.filter(m => m.league === FILTER);
+  if (SEARCH) matches = matches.filter(m => matchesSearch(m));
+  if (!matches.length) {
+    document.getElementById('app').innerHTML = '<div class="loading">' + (SEARCH ? (sv ? 'Inga resultat för "' + SEARCH + '"' : 'No results for "' + SEARCH + '"') : (sv ? 'Inga matcher hittades.' : 'No matches found.')) + '</div>';
+    return;
+  }
+  if (SORT === 'alpha') {
+    matches = [...matches].sort((a, b) => (a[l].teams[0]+a[l].teams[1]).localeCompare(b[l].teams[0]+b[l].teams[1], 'sv'));
+  }
+  const sectionTitle = sv ? (SORT === 'alpha' ? 'MATCHER A-Ö' : 'AKTUELLA MATCHER - SÄSONGEN 2025/26') : (SORT === 'alpha' ? 'MATCHES A-Z' : 'CURRENT FIXTURES - SEASON 2025/26');
+  if (VIEW === 'bars') {
+    const barMap = {};
+    matches.forEach(match => {
+      const md = match[l];
+      (match.bars || []).forEach(key => {
+        const bar = BARS[key];
+        if (!bar) return;
+        if (!barMap[key]) barMap[key] = { bar, key, matches: [] };
+        barMap[key].matches.push({ label: md.teams[0] + ' vs ' + md.teams[1], time: md.date, league: match.league });
+      });
+    });
+    const sorted = Object.values(barMap).sort((a, b) => a.bar.name.localeCompare(b.bar.name, 'sv'));
+    document.getElementById('app').innerHTML = '<div class="section-head">' + (sv ? 'KROGAR A-Ö' : 'BARS A-Z') + '</div><div class="bar-view-grid">' +
+      sorted.map(({bar, matches: bm}) => {
+        const tk = transitKey(bar) + transitExit(bar);
+        return '<div class="bv-card"><div class="bv-head"><div class="bv-name">' + bar.name + '</div><div class="bv-area">' + bar.area + '</div></div><div class="bv-body"><div class="bv-meta">' + PIN + bar.addr + '</div><div class="bv-transit"><span class="t">T</span>' + tk + '</div><div class="bv-matches-lbl">' + (sv ? 'Matcher som visas:' : 'Matches showing:') + '</div>' + bm.map(mm => '<div class="bv-match"><div><div class="bv-match-name">' + mm.label + '</div><div class="bv-league">' + mm.league + '</div></div><div class="bv-match-time">' + mm.time + '</div></div>').join('') + '<div style="margin-top:.9rem;">' + MAPBTN(bar.map, ml) + '</div></div></div>';
+      }).join('') + '</div>';
+    return;
+  }
+  document.getElementById('app').innerHTML = '<div class="section-head">' + sectionTitle + '</div>' +
+    matches.map(match => {
+      const md = match[l];
+      const live = md.live ? '<span class="badge blv">● LIVE</span>' : '';
+      const round = md.round ? '<span class="badge br">' + md.round + '</span>' : '';
+      const barsHtml = (match.bars || []).map(key => {
+        const bar = BARS[key];
+        if (!bar) return '';
+        const tk = transitKey(bar) + transitExit(bar);
+        return '<div class="bar-card"><div class="bar-name">' + bar.name + '</div><div class="bar-addr">' + PIN + bar.addr + ', ' + bar.area + '</div><div class="bar-transit"><span class="t">T</span>' + tk + '</div>' + MAPBTN(bar.map, ml) + '</div>';
+      }).join('');
+      return '<div class="match-card"><div class="match-head"><div class="match-teams">' + md.teams[0] + ' <span class="vs">VS</span> ' + md.teams[1] + '</div><div class="match-meta"><span class="badge bl">' + match.league + '</span><span class="badge bt">' + md.date + '</span>' + round + live + '</div></div><div class="bars-grid">' + barsHtml + '</div></div>';
+    }).join('');
+}
+
+init();
+</script>
+</body>
+</html>
