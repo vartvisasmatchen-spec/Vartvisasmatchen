@@ -322,7 +322,7 @@ async function loadFromSheets() {
       if (/\s+vs\s+/i.test(matchName)) { const p = matchName.split(/\s+vs\s+/i); t1 = p[0].trim(); t2 = (p[1]||'').trim(); }
       else if (matchName.includes(' - ')) { const p = matchName.split(' - '); t1 = p[0].trim(); t2 = (p[1]||'').trim(); }
 
-      const barKeys = barerStr.split(',').map(s => s.trim().toLowerCase()).filter(Boolean);
+      const barKeys = barerStr.split(';').map(s => s.trim().toLowerCase()).filter(Boolean);
       const dateDisplay = datum + (tid ? ' · ' + tid : '');
 
       ALL_MATCHES.push({ id: i, league: liga, matchName, teams: [t1, t2], date: dateDisplay, bars: barKeys });
